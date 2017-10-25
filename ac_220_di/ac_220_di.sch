@@ -1,0 +1,245 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L C C1
+U 1 1 587226CD
+P 3450 2500
+F 0 "C1" V 3350 2100 50  0000 L CNN
+F 1 "0.15uF" V 3450 2050 50  0000 L CNN
+F 2 "Capacitors_THT:C_Rect_L18_W7_P15" H 3488 2350 50  0001 C CNN
+F 3 "" H 3450 2500 50  0000 C CNN
+	1    3450 2500
+	0    1    1    0   
+$EndComp
+$Comp
+L R R2
+U 1 1 587226F8
+P 3450 2800
+F 0 "R2" V 3530 2800 50  0000 C CNN
+F 1 "10k 1W" V 3600 2750 50  0000 C CNN
+F 2 "Resistors_THT:Resistor_Horizontal_RM15mm" V 3380 2800 50  0001 C CNN
+F 3 "" H 3450 2800 50  0000 C CNN
+	1    3450 2800
+	0    1    1    0   
+$EndComp
+$Comp
+L R R1
+U 1 1 58722739
+P 3450 2300
+F 0 "R1" V 3350 2300 50  0000 C CNN
+F 1 "3m" V 3450 2300 50  0000 C CNN
+F 2 "Resistors_THT:Resistor_Horizontal_RM15mm" V 3380 2300 50  0001 C CNN
+F 3 "" H 3450 2300 50  0000 C CNN
+	1    3450 2300
+	0    1    1    0   
+$EndComp
+$Comp
+L D D1
+U 1 1 587227B8
+P 3700 2650
+F 0 "D1" V 3700 2750 50  0000 C CNN
+F 1 "4448" V 3800 2750 50  0000 C CNN
+F 2 "Diodes_SMD:D_0805" H 3700 2650 50  0001 C CNN
+F 3 "" H 3700 2650 50  0000 C CNN
+	1    3700 2650
+	0    1    1    0   
+$EndComp
+$Comp
+L D D2
+U 1 1 58722803
+P 3950 2500
+F 0 "D2" H 3950 2600 50  0000 C CNN
+F 1 "4448" H 3950 2400 50  0000 C CNN
+F 2 "Diodes_SMD:D_0805" H 3950 2500 50  0001 C CNN
+F 3 "" H 3950 2500 50  0000 C CNN
+	1    3950 2500
+	-1   0    0    1   
+$EndComp
+$Comp
+L CP C2
+U 1 1 58722854
+P 4200 2650
+F 0 "C2" H 4225 2750 50  0000 L CNN
+F 1 "10,0" H 4225 2550 50  0000 L CNN
+F 2 "SMD_Packages:SMD-2112_Pol" H 4238 2500 50  0001 C CNN
+F 3 "" H 4200 2650 50  0000 C CNN
+	1    4200 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C3
+U 1 1 587228A9
+P 4400 2650
+F 0 "C3" H 4425 2750 50  0000 L CNN
+F 1 "0,1" H 4425 2550 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206_HandSoldering" H 4438 2500 50  0001 C CNN
+F 3 "" H 4400 2650 50  0000 C CNN
+	1    4400 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L OPTO-TRANSISTOR U1
+U 1 1 587228F9
+P 4900 2700
+F 0 "U1" H 4700 2900 50  0000 L CNN
+F 1 "4N35" H 4700 2500 50  0000 L CNN
+F 2 "Housings_DIP:DIP-6_W7.62mm" H 4700 2500 50  0001 L CIN
+F 3 "" H 4900 2700 50  0000 L CNN
+	1    4900 2700
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R4
+U 1 1 587229E1
+P 5750 2350
+F 0 "R4" H 5900 2350 50  0000 C CNN
+F 1 "4,7k (10ma) or 12k (2ma)" H 6350 2450 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 5680 2350 50  0001 C CNN
+F 3 "" H 5750 2350 50  0000 C CNN
+	1    5750 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P1
+U 1 1 58722A38
+P 3000 2750
+F 0 "P1" H 3000 2900 50  0000 C CNN
+F 1 "In" V 3100 2750 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Angled_1x02" H 3000 2750 50  0001 C CNN
+F 3 "" H 3000 2750 50  0000 C CNN
+	1    3000 2750
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 P3
+U 1 1 58722B6A
+P 5950 2700
+F 0 "P3" H 5950 2900 50  0000 C CNN
+F 1 "Out" V 6050 2700 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Angled_1x03" H 5950 2700 50  0001 C CNN
+F 3 "" H 5950 2700 50  0000 C CNN
+	1    5950 2700
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P2
+U 1 1 58722BF7
+P 5950 2050
+F 0 "P2" H 5950 2200 50  0000 C CNN
+F 1 "Led" V 6050 2050 50  0000 C CNN
+F 2 "Socket_Strips:Socket_Strip_Angled_1x02" H 5950 2050 50  0001 C CNN
+F 3 "" H 5950 2050 50  0000 C CNN
+	1    5950 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 2800 5750 2800
+Wire Wire Line
+	5200 2700 5750 2700
+Wire Wire Line
+	5600 2700 5600 2000
+Wire Wire Line
+	5600 2000 5750 2000
+Connection ~ 5600 2700
+Wire Wire Line
+	5750 2600 5750 2500
+Wire Wire Line
+	5750 2200 5750 2100
+Wire Wire Line
+	3600 2800 4600 2800
+Connection ~ 3700 2800
+Connection ~ 4200 2800
+Connection ~ 4400 2800
+Wire Wire Line
+	4600 2500 4600 2600
+Wire Wire Line
+	4100 2500 4600 2500
+Connection ~ 4400 2500
+Connection ~ 4200 2500
+Wire Wire Line
+	3600 2500 3800 2500
+Connection ~ 3700 2500
+Wire Wire Line
+	3600 2300 3600 2500
+Wire Wire Line
+	3300 2800 3200 2800
+Wire Wire Line
+	3300 2700 3200 2700
+Wire Wire Line
+	3300 2300 3300 2700
+Connection ~ 3300 2500
+Connection ~ 3600 2500
+$Comp
+L R R3
+U 1 1 587231B1
+P 5350 2600
+F 0 "R3" V 5430 2600 50  0000 C CNN
+F 1 "470k" V 5350 2600 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 5280 2600 50  0001 C CNN
+F 3 "" H 5350 2600 50  0000 C CNN
+	1    5350 2600
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	5500 2350 5500 2800
+Connection ~ 5500 2800
+$Comp
+L C C4
+U 1 1 587232CE
+P 5350 2350
+F 0 "C4" V 5375 2450 50  0000 L CNN
+F 1 "100pf" V 5500 2250 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206_HandSoldering" H 5388 2200 50  0001 C CNN
+F 3 "" H 5350 2350 50  0000 C CNN
+	1    5350 2350
+	0    -1   -1   0   
+$EndComp
+Connection ~ 5500 2600
+Wire Wire Line
+	5200 2600 5200 2350
+Connection ~ 5200 2600
+Text Notes 3000 1900 0    60   ~ 0
+310v/10ma = 31Kohm = 10k R + 21k C\nC = 0.15uF\n\nC=0.022uF R=144k + 10k = 154k, I=2ma\n
+$EndSCHEMATC

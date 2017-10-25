@@ -1,0 +1,161 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L OPTO-TRANSISTOR U1
+U 1 1 58A74378
+P 3100 3250
+F 0 "U1" H 2900 3450 50  0000 L CNN
+F 1 "OPTO-TRANSISTOR" H 2900 3050 50  0000 L CNN
+F 2 "" H 2900 3050 50  0000 L CIN
+F 3 "" H 3100 3250 50  0000 L CNN
+	1    3100 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Q_PJFET_DGS Q1
+U 1 1 58A743D6
+P 4050 2400
+F 0 "Q1" H 4250 2450 50  0000 L CNN
+F 1 "КП103" H 4250 2350 50  0000 L CNN
+F 2 "" H 4250 2500 50  0000 C CNN
+F 3 "" H 4050 2400 50  0000 C CNN
+	1    4050 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R3
+U 1 1 58A743EF
+P 4150 2750
+F 0 "R3" V 4230 2750 50  0000 C CNN
+F 1 "R" V 4150 2750 50  0000 C CNN
+F 2 "" V 4080 2750 50  0000 C CNN
+F 3 "" H 4150 2750 50  0000 C CNN
+	1    4150 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4150 2900 3850 2900
+Wire Wire Line
+	3850 2900 3850 2400
+$Comp
+L R R2
+U 1 1 58A74474
+P 3550 3150
+F 0 "R2" V 3630 3150 50  0000 C CNN
+F 1 "R" V 3550 3150 50  0000 C CNN
+F 2 "" V 3480 3150 50  0000 C CNN
+F 3 "" H 3550 3150 50  0000 C CNN
+	1    3550 3150
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3700 3150 3700 3350
+Wire Wire Line
+	3400 3350 4900 3350
+Wire Wire Line
+	3400 3250 4150 3250
+Wire Wire Line
+	4150 3250 4150 2900
+Connection ~ 3700 3350
+$Comp
+L C C1
+U 1 1 58A74533
+P 4650 3200
+F 0 "C1" H 4675 3300 50  0000 L CNN
+F 1 "C" H 4675 3100 50  0000 L CNN
+F 2 "" H 4688 3050 50  0000 C CNN
+F 3 "" H 4650 3200 50  0000 C CNN
+	1    4650 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Screw_Terminal_1x02 J1
+U 1 1 58A7455E
+P 5100 3250
+F 0 "J1" H 5100 3500 50  0000 C TNN
+F 1 "Out 4-20 mA" V 4950 3250 50  0000 C TNN
+F 2 "" H 5100 3025 50  0001 C CNN
+F 3 "" H 5075 3250 50  0001 C CNN
+	1    5100 3250
+	-1   0    0    1   
+$EndComp
+Connection ~ 4650 3350
+Wire Wire Line
+	4900 3150 4900 3050
+Wire Wire Line
+	4900 3050 4650 3050
+Wire Wire Line
+	4650 3050 4650 2200
+Wire Wire Line
+	4650 2200 4150 2200
+Connection ~ 4150 2900
+Connection ~ 4650 3050
+$Comp
+L R R1
+U 1 1 58A7464E
+P 2650 3150
+F 0 "R1" V 2730 3150 50  0000 C CNN
+F 1 "R" V 2650 3150 50  0000 C CNN
+F 2 "" V 2580 3150 50  0000 C CNN
+F 3 "" H 2650 3150 50  0000 C CNN
+	1    2650 3150
+	0    1    1    0   
+$EndComp
+$Comp
+L CONN_01X02 P1
+U 1 1 58A746C9
+P 2300 3300
+F 0 "P1" H 2300 3450 50  0000 C CNN
+F 1 "PWM" V 2400 3300 50  0000 C CNN
+F 2 "" H 2300 3300 50  0000 C CNN
+F 3 "" H 2300 3300 50  0000 C CNN
+	1    2300 3300
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2500 3350 2800 3350
+Wire Wire Line
+	2500 3250 2500 3150
+$EndSCHEMATC
