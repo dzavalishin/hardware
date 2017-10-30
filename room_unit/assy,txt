@@ -1,0 +1,24 @@
+assy bus
+
+- +24
+- +5
+- +3.3
+- PWR GND
+
+- 1W
+
+- SDA
+- SCL
+
+- AI0
+- AI1
+- AI2
+- AI3
+
+- DI0
+- DI1
+
+- DO0
+- DO1
+- DO2
+

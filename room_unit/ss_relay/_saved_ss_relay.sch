@@ -48,7 +48,7 @@ L CONN_01X02 P1
 U 1 1 59EF8B65
 P 950 1900
 F 0 "P1" H 950 2050 50  0000 C CNN
-F 1 "CONN_01X02" V 1050 1900 50  0000 C CNN
+F 1 "DI_A" V 1050 1900 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 950 1900 50  0001 C CNN
 F 3 "" H 950 1900 50  0000 C CNN
 	1    950  1900
@@ -59,22 +59,11 @@ L R R1
 U 1 1 59EF8BA5
 P 1600 2150
 F 0 "R1" V 1500 2150 50  0000 C CNN
-F 1 "560" V 1600 2150 50  0000 C CNN
+F 1 "1k" V 1600 2150 50  0000 C CNN
 F 2 "Resistors_SMD:R_1206_HandSoldering" V 1530 2150 50  0001 C CNN
 F 3 "" H 1600 2150 50  0000 C CNN
 	1    1600 2150
 	0    1    1    0   
-$EndComp
-$Comp
-L R R2
-U 1 1 59EF8BD8
-P 1600 2750
-F 0 "R2" V 1680 2750 50  0000 C CNN
-F 1 "560" V 1600 2750 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" V 1530 2750 50  0001 C CNN
-F 3 "" H 1600 2750 50  0000 C CNN
-	1    1600 2750
-	0    -1   -1   0   
 $EndComp
 $Comp
 L D_Zener D8
@@ -297,7 +286,7 @@ F 3 "" H 6800 2550 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	1750 2750 2900 2750
+	1150 2750 2900 2750
 Wire Wire Line
 	2500 2750 2500 2150
 Connection ~ 2300 2750
@@ -315,12 +304,6 @@ Wire Wire Line
 	2600 2150 2600 2450
 Connection ~ 2600 2150
 Connection ~ 2600 2750
-Wire Wire Line
-	1750 2450 1750 1850
-Wire Wire Line
-	1750 1850 1150 1850
-Wire Wire Line
-	1150 1950 1150 2450
 Wire Wire Line
 	3500 2550 3500 2450
 Wire Wire Line
@@ -382,17 +365,6 @@ F 3 "" H 3950 1750 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L D_Bridge_+-AA D1
-U 1 1 59EFB950
-P 1450 2450
-F 0 "D1" V 1250 2700 50  0000 L CNN
-F 1 "MB6S" V 1150 2700 50  0000 L CNN
-F 2 "Diodes_SMD:Diode_Bridge_TO-269AA" H 1450 2450 50  0001 C CNN
-F 3 "" H 1450 2450 50  0000 C CNN
-	1    1450 2450
-	0    -1   -1   0   
-$EndComp
-$Comp
 L D_Bridge_+-AA D7
 U 1 1 59EFBBD9
 P 6100 2000
@@ -411,4 +383,27 @@ Wire Wire Line
 	6450 2750 6450 2000
 Connection ~ 6450 2000
 Connection ~ 6800 2400
+$Comp
+L CONN_01X02 P2
+U 1 1 59F22711
+P 950 2700
+F 0 "P2" H 950 2850 50  0000 C CNN
+F 1 "DI_B" V 1050 2700 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 950 2700 50  0001 C CNN
+F 3 "" H 950 2700 50  0000 C CNN
+	1    950  2700
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1150 1850 1450 1850
+Wire Wire Line
+	1450 1850 1450 2650
+Wire Wire Line
+	1450 2650 1150 2650
+Connection ~ 1450 2150
+Wire Wire Line
+	1150 1950 1350 1950
+Wire Wire Line
+	1350 1950 1350 2750
+Connection ~ 1350 2750
 $EndSCHEMATC

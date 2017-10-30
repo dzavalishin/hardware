@@ -1,5 +1,10 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP HK4100F
+D HK4100F, Miniature Single Pole Relay, SPDT, 3A
+K Miniature Single Pole Relay
+$ENDCMP
+#
 $CMP L293D
 D 2 H drivers (4 half-H drivers)
 $ENDCMP
