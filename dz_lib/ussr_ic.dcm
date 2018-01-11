@@ -9,6 +9,10 @@ $CMP L293D
 D 2 H drivers (4 half-H drivers)
 $ENDCMP
 #
+$CMP TA7281
+D Dual/Bridge audio power amp
+$ENDCMP
+#
 $CMP dcdc5v
 D DC-DC 6-40v to 5 v
 $ENDCMP
