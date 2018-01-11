@@ -1,2 +1,3 @@
 # hardware
-Misc smart house hardware
+Misc smart house hardware, kicad designs.
+
