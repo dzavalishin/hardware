@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:ss_relay-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -165,7 +166,7 @@ F 3 "" H 3900 2600 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L IRF540N Q1
+L IRF540N-RESCUE-ss_relay Q1
 U 1 1 59EF955B
 P 4300 2400
 F 0 "Q1" H 4550 2475 50  0000 L CNN

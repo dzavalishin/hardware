@@ -597,4 +597,58 @@ Text Label 6300 2100 0    60   ~ 0
 DO0
 Text Label 6300 2200 0    60   ~ 0
 DO1
+$Comp
+L R R4
+U 1 1 5AD1E445
+P 8100 1250
+F 0 "R4" V 8180 1250 50  0000 C CNN
+F 1 "2,7k" V 8100 1250 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 8030 1250 50  0001 C CNN
+F 3 "" H 8100 1250 50  0000 C CNN
+	1    8100 1250
+	0    1    1    0   
+$EndComp
+$Comp
+L R R5
+U 1 1 5AD1E518
+P 8100 1500
+F 0 "R5" V 8180 1500 50  0000 C CNN
+F 1 "2,7k" V 8100 1500 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 8030 1500 50  0001 C CNN
+F 3 "" H 8100 1500 50  0000 C CNN
+	1    8100 1500
+	0    1    1    0   
+$EndComp
+$Comp
+L R R6
+U 1 1 5AD1E56A
+P 8100 1750
+F 0 "R6" V 8180 1750 50  0000 C CNN
+F 1 "2,7k" V 8100 1750 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 8030 1750 50  0001 C CNN
+F 3 "" H 8100 1750 50  0000 C CNN
+	1    8100 1750
+	0    1    1    0   
+$EndComp
+Text Label 8250 1250 0    60   ~ 0
+1Wire
+Text Label 8250 1500 0    60   ~ 0
+SDA
+Text Label 8250 1750 0    60   ~ 0
+SCL
+$Comp
+L +5V #PWR021
+U 1 1 5AD1E686
+P 7950 1250
+F 0 "#PWR021" H 7950 1100 50  0001 C CNN
+F 1 "+5V" H 7950 1390 50  0000 C CNN
+F 2 "" H 7950 1250 50  0000 C CNN
+F 3 "" H 7950 1250 50  0000 C CNN
+	1    7950 1250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7950 1250 7950 1750
+Connection ~ 7950 1500
+Connection ~ 7950 1250
 $EndSCHEMATC
