@@ -1,0 +1,455 @@
+EESchema Schematic File Version 4
+LIBS:smart_relay_board_00-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	2100 1950 2100 1700
+Wire Wire Line
+	1500 2650 2250 2650
+Wire Wire Line
+	1500 2650 1500 950 
+Wire Wire Line
+	1500 950  3400 950 
+Wire Wire Line
+	2650 2650 3400 2650
+Wire Wire Line
+	3400 2650 3400 1600
+$Comp
+L Device:R R3
+U 1 1 5887C1F2
+P 3400 1450
+AR Path="/5887B72D/5887C1F2" Ref="R3"  Part="1" 
+AR Path="/5887BC36/5887C1F2" Ref="R8"  Part="1" 
+AR Path="/5888009A/5887C1F2" Ref="R13"  Part="1" 
+AR Path="/58880C70/5887C1F2" Ref="R18"  Part="1" 
+AR Path="/58880382/5887C1F2" Ref="R23"  Part="1" 
+AR Path="/5888088C/5887C1F2" Ref="R28"  Part="1" 
+F 0 "R28" H 3450 1300 50  0000 C CNN
+F 1 "100 1w" H 3650 1500 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P12.70mm_Horizontal" V 3330 1450 50  0001 C CNN
+F 3 "" H 3400 1450 50  0000 C CNN
+	1    3400 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C3
+U 1 1 5887C227
+P 3400 1150
+AR Path="/5887B72D/5887C227" Ref="C3"  Part="1" 
+AR Path="/5887BC36/5887C227" Ref="C6"  Part="1" 
+AR Path="/5888009A/5887C227" Ref="C9"  Part="1" 
+AR Path="/58880C70/5887C227" Ref="C12"  Part="1" 
+AR Path="/58880382/5887C227" Ref="C15"  Part="1" 
+AR Path="/5888088C/5887C227" Ref="C18"  Part="1" 
+F 0 "C18" H 3425 1250 50  0000 L CNN
+F 1 "0,022 x 400v" H 3425 1050 50  0000 L CNN
+F 2 "Capacitors_THT:C_Rect_L13.0mm_W5.0mm_P10.00mm_FKS3_FKP3_MKS4" H 3438 1000 50  0001 C CNN
+F 3 "" H 3400 1150 50  0000 C CNN
+	1    3400 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 950  3400 1000
+Connection ~ 2700 2650
+Text HLabel 1300 3200 0    60   Input ~ 0
+Relay_In_Plus
+Text HLabel 1300 3800 0    60   Input ~ 0
+Relay_In_Minus
+$Comp
+L Device:D D3
+U 1 1 5887C9E3
+P 3850 2400
+AR Path="/5887B72D/5887C9E3" Ref="D3"  Part="1" 
+AR Path="/5887BC36/5887C9E3" Ref="D6"  Part="1" 
+AR Path="/5888009A/5887C9E3" Ref="D9"  Part="1" 
+AR Path="/58880C70/5887C9E3" Ref="D12"  Part="1" 
+AR Path="/58880382/5887C9E3" Ref="D15"  Part="1" 
+AR Path="/5888088C/5887C9E3" Ref="D18"  Part="1" 
+F 0 "D18" H 3850 2500 50  0000 C CNN
+F 1 "1n4148" H 3850 2300 50  0000 C CNN
+F 2 "Diodes_SMD:D_MiniMELF_Handsoldering" H 3850 2400 50  0001 C CNN
+F 3 "" H 3850 2400 50  0000 C CNN
+	1    3850 2400
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3100 1950 3850 1950
+Wire Wire Line
+	3850 1950 3850 2250
+Connection ~ 3850 1950
+Text HLabel 4800 4650 2    60   Output ~ 0
+CPU_In
+Text HLabel 3750 2850 0    60   Input ~ 0
+CPU_Out
+Connection ~ 3850 2550
+Wire Wire Line
+	3750 2850 3900 2850
+$Comp
+L Device:R R1
+U 1 1 5887CEAA
+P 1700 3650
+AR Path="/5887B72D/5887CEAA" Ref="R1"  Part="1" 
+AR Path="/5887BC36/5887CEAA" Ref="R6"  Part="1" 
+AR Path="/5888009A/5887CEAA" Ref="R11"  Part="1" 
+AR Path="/58880C70/5887CEAA" Ref="R16"  Part="1" 
+AR Path="/58880382/5887CEAA" Ref="R21"  Part="1" 
+AR Path="/5888088C/5887CEAA" Ref="R26"  Part="1" 
+F 0 "R26" V 1600 3650 50  0000 C CNN
+F 1 "1k" V 1700 3650 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 1630 3650 50  0001 C CNN
+F 3 "" H 1700 3650 50  0000 C CNN
+	1    1700 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5887CFE3
+P 2650 5000
+AR Path="/5887B72D/5887CFE3" Ref="R2"  Part="1" 
+AR Path="/5887BC36/5887CFE3" Ref="R7"  Part="1" 
+AR Path="/5888009A/5887CFE3" Ref="R12"  Part="1" 
+AR Path="/58880C70/5887CFE3" Ref="R17"  Part="1" 
+AR Path="/58880382/5887CFE3" Ref="R22"  Part="1" 
+AR Path="/5888088C/5887CFE3" Ref="R27"  Part="1" 
+F 0 "R27" V 2730 5000 50  0000 C CNN
+F 1 "1k" V 2650 5000 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 2580 5000 50  0001 C CNN
+F 3 "" H 2650 5000 50  0000 C CNN
+	1    2650 5000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:D_Zener D1
+U 1 1 5887D0F5
+P 2350 5150
+AR Path="/5887B72D/5887D0F5" Ref="D1"  Part="1" 
+AR Path="/5887BC36/5887D0F5" Ref="D4"  Part="1" 
+AR Path="/5888009A/5887D0F5" Ref="D7"  Part="1" 
+AR Path="/58880C70/5887D0F5" Ref="D10"  Part="1" 
+AR Path="/58880382/5887D0F5" Ref="D13"  Part="1" 
+AR Path="/5888088C/5887D0F5" Ref="D16"  Part="1" 
+F 0 "D16" H 2350 5250 50  0000 C CNN
+F 1 "5v6" H 2350 5050 50  0000 C CNN
+F 2 "Diodes_SMD:D_MiniMELF_Handsoldering" H 2350 5150 50  0001 C CNN
+F 3 "" H 2350 5150 50  0000 C CNN
+	1    2350 5150
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5887D359
+P 2100 5200
+AR Path="/5887B72D/5887D359" Ref="C2"  Part="1" 
+AR Path="/5887BC36/5887D359" Ref="C5"  Part="1" 
+AR Path="/5888009A/5887D359" Ref="C8"  Part="1" 
+AR Path="/58880C70/5887D359" Ref="C11"  Part="1" 
+AR Path="/58880382/5887D359" Ref="C14"  Part="1" 
+AR Path="/5888088C/5887D359" Ref="C17"  Part="1" 
+F 0 "C17" H 2125 5300 50  0000 L CNN
+F 1 "0,1" H 2125 5100 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206_HandSoldering" H 2138 5050 50  0001 C CNN
+F 3 "" H 2100 5200 50  0000 C CNN
+	1    2100 5200
+	-1   0    0    1   
+$EndComp
+$Comp
+L smart_relay_board_00-rescue:Screw_Terminal_1x03 J5
+U 1 1 58880EDE
+P 3150 3500
+AR Path="/5887B72D/58880EDE" Ref="J5"  Part="1" 
+AR Path="/5887BC36/58880EDE" Ref="J6"  Part="1" 
+AR Path="/5888009A/58880EDE" Ref="J7"  Part="1" 
+AR Path="/58880C70/58880EDE" Ref="J8"  Part="1" 
+AR Path="/58880382/58880EDE" Ref="J9"  Part="1" 
+AR Path="/5888088C/58880EDE" Ref="J10"  Part="1" 
+F 0 "J10" H 3150 3850 50  0000 C TNN
+F 1 "Do_Adv" V 3000 3500 50  0000 C TNN
+F 2 "Connectors_Terminal_Blocks:TerminalBlock_bornier-3_P5.08mm" H 3150 3175 50  0001 C CNN
+F 3 "" H 3125 3600 50  0001 C CNN
+	1    3150 3500
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2700 3300 2950 3300
+Wire Wire Line
+	2450 3500 2950 3500
+Wire Wire Line
+	2200 3700 2950 3700
+$Comp
+L ussr_ic1:HK4100F RL11
+U 1 1 58893E4C
+P 1800 2450
+AR Path="/5888088C/58893E4C" Ref="RL11"  Part="1" 
+AR Path="/5887B72D/58893E4C" Ref="RL1"  Part="1" 
+AR Path="/5887BC36/58893E4C" Ref="RL3"  Part="1" 
+AR Path="/5888009A/58893E4C" Ref="RL5"  Part="1" 
+AR Path="/58880C70/58893E4C" Ref="RL7"  Part="1" 
+AR Path="/58880382/58893E4C" Ref="RL9"  Part="1" 
+F 0 "RL11" H 1450 2800 50  0000 L CNN
+F 1 "HK4100F" H 1250 2700 50  0000 L CNN
+F 2 "dz_lib:Relay_SPDT_HK4100F" H 2450 2600 50  0001 L CNN
+F 3 "" H 2000 2250 50  0000 C CNN
+	1    1800 2450
+	1    0    0    -1  
+$EndComp
+$Comp
+L ussr_ic1:HK4100F RL12
+U 1 1 58893EB9
+P 3100 2450
+AR Path="/5888088C/58893EB9" Ref="RL12"  Part="1" 
+AR Path="/5887B72D/58893EB9" Ref="RL2"  Part="1" 
+AR Path="/5887BC36/58893EB9" Ref="RL4"  Part="1" 
+AR Path="/5888009A/58893EB9" Ref="RL6"  Part="1" 
+AR Path="/58880C70/58893EB9" Ref="RL8"  Part="1" 
+AR Path="/58880382/58893EB9" Ref="RL10"  Part="1" 
+F 0 "RL12" H 2650 2850 50  0000 L CNN
+F 1 "HK4100F" H 2450 2750 50  0000 L CNN
+F 2 "dz_lib:Relay_SPDT_HK4100F" H 3750 2600 50  0001 L CNN
+F 3 "" H 3300 2250 50  0000 C CNN
+	1    3100 2450
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2250 2650 2250 2550
+Wire Wire Line
+	2150 2550 2150 2650
+Connection ~ 2150 2650
+Wire Wire Line
+	2750 2550 2750 2650
+Connection ~ 2750 2650
+Wire Wire Line
+	2650 2550 2650 2650
+Wire Wire Line
+	2700 2650 2700 3300
+Wire Wire Line
+	3100 2550 3900 2550
+Wire Wire Line
+	3900 2550 3900 2850
+Wire Wire Line
+	2200 3700 2200 2650
+Connection ~ 2200 2650
+$Comp
+L power:+5V #PWR015
+U 1 1 5889B92B
+P 3850 1950
+AR Path="/5887B72D/5889B92B" Ref="#PWR015"  Part="1" 
+AR Path="/5887BC36/5889B92B" Ref="#PWR019"  Part="1" 
+AR Path="/5888009A/5889B92B" Ref="#PWR023"  Part="1" 
+AR Path="/58880C70/5889B92B" Ref="#PWR027"  Part="1" 
+AR Path="/58880382/5889B92B" Ref="#PWR031"  Part="1" 
+AR Path="/5888088C/5889B92B" Ref="#PWR035"  Part="1" 
+F 0 "#PWR035" H 3850 1800 50  0001 C CNN
+F 1 "+5V" H 3850 2090 50  0000 C CNN
+F 2 "" H 3850 1950 50  0000 C CNN
+F 3 "" H 3850 1950 50  0000 C CNN
+	1    3850 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R5
+U 1 1 5AD8568C
+P 4550 4650
+AR Path="/5887B72D/5AD8568C" Ref="R5"  Part="1" 
+AR Path="/5887BC36/5AD8568C" Ref="R9"  Part="1" 
+AR Path="/58880C70/5AD8568C" Ref="R14"  Part="1" 
+AR Path="/58880382/5AD8568C" Ref="R15"  Part="1" 
+AR Path="/5888009A/5AD8568C" Ref="R10"  Part="1" 
+AR Path="/5888088C/5AD8568C" Ref="R19"  Part="1" 
+F 0 "R19" V 4630 4650 50  0000 C CNN
+F 1 "1k" V 4550 4650 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 4480 4650 50  0001 C CNN
+F 3 "" H 4550 4650 50  0000 C CNN
+	1    4550 4650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR016
+U 1 1 5AD85693
+P 3750 5200
+AR Path="/5887B72D/5AD85693" Ref="#PWR016"  Part="1" 
+AR Path="/5887BC36/5AD85693" Ref="#PWR020"  Part="1" 
+AR Path="/58880C70/5AD85693" Ref="#PWR028"  Part="1" 
+AR Path="/58880382/5AD85693" Ref="#PWR032"  Part="1" 
+AR Path="/5888009A/5AD85693" Ref="#PWR024"  Part="1" 
+AR Path="/5888088C/5AD85693" Ref="#PWR036"  Part="1" 
+F 0 "#PWR036" H 3750 4950 50  0001 C CNN
+F 1 "GND" H 3750 5050 50  0000 C CNN
+F 2 "" H 3750 5200 50  0000 C CNN
+F 3 "" H 3750 5200 50  0000 C CNN
+	1    3750 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C7
+U 1 1 5AD85699
+P 4700 5150
+AR Path="/5887B72D/5AD85699" Ref="C7"  Part="1" 
+AR Path="/5887BC36/5AD85699" Ref="C13"  Part="1" 
+AR Path="/58880C70/5AD85699" Ref="C27"  Part="1" 
+AR Path="/58880382/5AD85699" Ref="C29"  Part="1" 
+AR Path="/5888009A/5AD85699" Ref="C25"  Part="1" 
+AR Path="/5888088C/5AD85699" Ref="C31"  Part="1" 
+F 0 "C31" H 4725 5250 50  0000 L CNN
+F 1 "0,1" H 4725 5050 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206_HandSoldering" H 4738 5000 50  0001 C CNN
+F 3 "" H 4700 5150 50  0000 C CNN
+	1    4700 5150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR017
+U 1 1 5AD856A0
+P 4700 5300
+AR Path="/5887B72D/5AD856A0" Ref="#PWR017"  Part="1" 
+AR Path="/5887BC36/5AD856A0" Ref="#PWR021"  Part="1" 
+AR Path="/58880C70/5AD856A0" Ref="#PWR029"  Part="1" 
+AR Path="/58880382/5AD856A0" Ref="#PWR033"  Part="1" 
+AR Path="/5888009A/5AD856A0" Ref="#PWR025"  Part="1" 
+AR Path="/5888088C/5AD856A0" Ref="#PWR037"  Part="1" 
+F 0 "#PWR037" H 4700 5050 50  0001 C CNN
+F 1 "GND" H 4700 5150 50  0000 C CNN
+F 2 "" H 4700 5300 50  0000 C CNN
+F 3 "" H 4700 5300 50  0000 C CNN
+	1    4700 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L opto:LTV-817 U5
+U 1 1 5AD856AD
+P 3450 5100
+AR Path="/5887B72D/5AD856AD" Ref="U5"  Part="1" 
+AR Path="/5887BC36/5AD856AD" Ref="U6"  Part="1" 
+AR Path="/58880C70/5AD856AD" Ref="U8"  Part="1" 
+AR Path="/58880382/5AD856AD" Ref="U9"  Part="1" 
+AR Path="/5888009A/5AD856AD" Ref="U7"  Part="1" 
+AR Path="/5888088C/5AD856AD" Ref="U10"  Part="1" 
+F 0 "U10" H 3250 5300 50  0000 L CNN
+F 1 "LTV-817" H 3450 5300 50  0000 L CNN
+F 2 "Housings_SOIC:SO-4_7.6x3.6mm_Pitch2.54mm" H 3250 4900 50  0000 L CIN
+F 3 "" H 3450 5000 50  0000 L CNN
+	1    3450 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C4
+U 1 1 5AD856B4
+P 2950 5150
+AR Path="/5887B72D/5AD856B4" Ref="C4"  Part="1" 
+AR Path="/5887BC36/5AD856B4" Ref="C10"  Part="1" 
+AR Path="/58880C70/5AD856B4" Ref="C26"  Part="1" 
+AR Path="/58880382/5AD856B4" Ref="C28"  Part="1" 
+AR Path="/5888009A/5AD856B4" Ref="C16"  Part="1" 
+AR Path="/5888088C/5AD856B4" Ref="C30"  Part="1" 
+F 0 "C30" H 2975 5250 50  0000 L CNN
+F 1 "0,1" H 2975 5050 50  0000 L CNN
+F 2 "Capacitors_SMD:C_1206_HandSoldering" H 2988 5000 50  0001 C CNN
+F 3 "" H 2950 5150 50  0000 C CNN
+	1    2950 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 5000 4700 4650
+Wire Wire Line
+	3750 5000 4700 5000
+Connection ~ 4700 5000
+Wire Wire Line
+	1700 5000 2500 5000
+Connection ~ 2950 5000
+Wire Wire Line
+	1100 5400 3150 5400
+Wire Wire Line
+	2950 5400 2950 5300
+Wire Wire Line
+	3150 5400 3150 5200
+Connection ~ 2950 5400
+Wire Wire Line
+	4700 4650 4800 4650
+Wire Wire Line
+	2350 5400 2350 5300
+Connection ~ 2350 5400
+Connection ~ 2350 5000
+Wire Wire Line
+	2800 5000 3150 5000
+Wire Wire Line
+	2100 5050 2100 5000
+Connection ~ 2100 5000
+Wire Wire Line
+	2100 5350 2100 5400
+Connection ~ 2100 5400
+Wire Wire Line
+	1300 3200 1400 3200
+Wire Wire Line
+	1300 3800 1400 3800
+Wire Wire Line
+	1700 3800 1700 5000
+Wire Wire Line
+	1100 1950 1100 5400
+Wire Wire Line
+	1800 1950 1100 1950
+Connection ~ 1100 3500
+Wire Wire Line
+	1800 2550 1800 3850
+Wire Wire Line
+	1800 3850 1700 3850
+Connection ~ 1700 3850
+$Comp
+L smart_relay_board_00-rescue:D_Bridge_+-AA D5
+U 1 1 5AD8F840
+P 1400 3500
+AR Path="/5887BC36/5AD8F840" Ref="D5"  Part="1" 
+AR Path="/5887B72D/5AD8F840" Ref="D2"  Part="1" 
+AR Path="/5888009A/5AD8F840" Ref="D8"  Part="1" 
+AR Path="/58880C70/5AD8F840" Ref="D11"  Part="1" 
+AR Path="/58880382/5AD8F840" Ref="D14"  Part="1" 
+AR Path="/5888088C/5AD8F840" Ref="D17"  Part="1" 
+F 0 "D17" H 1450 3775 50  0000 L CNN
+F 1 "MB6S" H 1450 3700 50  0000 L CNN
+F 2 "Housings_SOIC:SO-4_4.4x3.6mm_Pitch2.54mm" H 1400 3500 50  0001 C CNN
+F 3 "" H 1400 3500 50  0001 C CNN
+	1    1400 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 1700 2600 1700
+Wire Wire Line
+	2600 1700 2600 1950
+Wire Wire Line
+	2300 1800 2800 1800
+Wire Wire Line
+	2800 1800 2800 1950
+Wire Wire Line
+	2300 1800 2300 1950
+Wire Wire Line
+	2450 3500 2450 1700
+Connection ~ 2450 1700
+$Comp
+L power:+5V #PWR018
+U 1 1 5AD91FB1
+P 4400 4650
+AR Path="/5887B72D/5AD91FB1" Ref="#PWR018"  Part="1" 
+AR Path="/5887BC36/5AD91FB1" Ref="#PWR022"  Part="1" 
+AR Path="/5888009A/5AD91FB1" Ref="#PWR026"  Part="1" 
+AR Path="/58880C70/5AD91FB1" Ref="#PWR030"  Part="1" 
+AR Path="/58880382/5AD91FB1" Ref="#PWR034"  Part="1" 
+AR Path="/5888088C/5AD91FB1" Ref="#PWR038"  Part="1" 
+F 0 "#PWR038" H 4400 4500 50  0001 C CNN
+F 1 "+5V" H 4400 4790 50  0000 C CNN
+F 2 "" H 4400 4650 50  0000 C CNN
+F 3 "" H 4400 4650 50  0000 C CNN
+	1    4400 4650
+	0    -1   -1   0   
+$EndComp
+Connection ~ 4700 4650
+$EndSCHEMATC

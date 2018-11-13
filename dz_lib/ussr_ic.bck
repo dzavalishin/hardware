@@ -1,5 +1,14 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP DZ_LED_ARGB
+D DZ LED RGB, common anode (pin 4)
+K led rgb diode
+$ENDCMP
+#
+$CMP EE16_24_05_Transformer
+D 2P 2Sx2 Transformer EE16
+$ENDCMP
+#
 $CMP HK4100F
 D HK4100F, Miniature Single Pole Relay, SPDT, 3A
 K Miniature Single Pole Relay
@@ -7,6 +16,24 @@ $ENDCMP
 #
 $CMP L293D
 D 2 H drivers (4 half-H drivers)
+$ENDCMP
+#
+$CMP LED_ARGB
+D DZ LED RGB, common anode (pin 4)
+K led rgb diode
+$ENDCMP
+#
+$CMP MC34063
+D Switching regulator
+$ENDCMP
+#
+$CMP SRD-0XVDC-SL-C
+D SRD-0XVDC-SL-C, Miniature Single Pole Relay, SPDT, 10A
+K Miniature Single Pole Relay
+$ENDCMP
+#
+$CMP TA7281
+D Dual/Bridge audio power amp
 $ENDCMP
 #
 $CMP dcdc5v

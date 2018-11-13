@@ -1,0 +1,24 @@
+
+# cap
+
+'0,1' 'Capacitors_SMD:C_1206_HandSoldering'
+'1,0' 'Capacitors_SMD:C_1206_HandSoldering'
+
+# r
+
+'10k' 'Resistors_SMD:R_1206_HandSoldering'
+'1k' 'Resistors_SMD:R_1206_HandSoldering'
+'200' 'Resistors_SMD:R_1206_HandSoldering'
+
+# etc
+
+'LED' 'LEDs:LED_1206_HandSoldering'
+
+# diodes
+
+'SS34' 'Diodes_SMD:D_SMA_Handsoldering'
+
+# chips
+
+'74ALS241' 'Housings_SOIC:SOIC-20W_7.5x12.8mm_Pitch1.27mm'
+'74LS193' 'Housings_DIP:DIP-16_W7.62mm_LongPads'

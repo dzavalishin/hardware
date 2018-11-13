@@ -1,0 +1,69 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# CONN_01X02
+#
+DEF CONN_01X02 P 0 40 Y N 1 F N
+F0 "P" 0 150 50 H V C CNN
+F1 "CONN_01X02" 100 0 50 V V C CNN
+F2 "" 0 0 50 H V C CNN
+F3 "" 0 0 50 H V C CNN
+$FPLIST
+ Pin_Header_Straight_1X02
+ Pin_Header_Angled_1X02
+ Socket_Strip_Straight_1X02
+ Socket_Strip_Angled_1X02
+$ENDFPLIST
+DRAW
+S -50 -45 10 -55 0 1 0 N
+S -50 55 10 45 0 1 0 N
+S -50 100 50 -100 0 1 0 N
+X P1 1 -200 50 150 R 50 50 1 1 P
+X P2 2 -200 -50 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# GNDPWR
+#
+DEF GNDPWR #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -200 50 H I C CNN
+F1 "GNDPWR" 0 -130 50 H V C CNN
+F2 "" 0 -50 50 H V C CNN
+F3 "" 0 -50 50 H V C CNN
+DRAW
+P 2 0 1 0 0 -50 0 0 N
+P 3 0 1 8 -40 -50 -50 -80 -50 -80 N
+P 3 0 1 8 -20 -50 -30 -80 -30 -80 N
+P 3 0 1 8 0 -50 -10 -80 -10 -80 N
+P 3 0 1 8 20 -50 10 -80 10 -80 N
+P 3 0 1 8 40 -50 -40 -50 -40 -50 N
+P 4 0 1 8 40 -50 30 -80 30 -80 30 -80 N
+X GNDPWR 1 0 0 0 U 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+# Screw_Terminal_1x02
+#
+DEF Screw_Terminal_1x02 J 0 30 Y N 1 F N
+F0 "J" 0 250 50 H V C TNN
+F1 "Screw_Terminal_1x02" -150 0 50 V V C TNN
+F2 "" 0 -225 50 H I C CNN
+F3 "" -25 0 50 H I C CNN
+$FPLIST
+ bornier2
+ TerminalBlock*2pol
+$ENDFPLIST
+DRAW
+C 25 -100 50 0 1 10 N
+C 25 100 50 0 1 10 N
+S -50 175 100 -175 0 1 10 f
+P 2 0 1 10 -15 -75 50 -140 N
+P 2 0 1 10 0 140 65 75 N
+P 2 0 1 10 50 60 -15 125 N
+P 2 0 1 10 65 -125 0 -60 N
+X ~ 1 200 100 100 L 50 50 1 1 P
+X ~ 2 200 -100 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+#End Library
