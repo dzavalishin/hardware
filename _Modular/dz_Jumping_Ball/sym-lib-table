@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "dz_Jumping_Ball-rescue")(type "Legacy")(uri "${KIPRJMOD}/dz_Jumping_Ball-rescue.lib")(options "")(descr ""))
+)

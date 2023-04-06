@@ -22,6 +22,10 @@ D HK4100F, Miniature Single Pole Relay, SPDT, 3A
 K Miniature Single Pole Relay
 $ENDCMP
 #
+$CMP K174UN13
+D Playback/Record amp, ALC
+$ENDCMP
+#
 $CMP L293D
 D 2 H drivers (4 half-H drivers)
 $ENDCMP

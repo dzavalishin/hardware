@@ -1,0 +1,327 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 3
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text HLabel 1800 2050 0    50   Input ~ 0
+Gate
+Text HLabel 5150 2150 2    50   Output ~ 0
+Out
+$Comp
+L Amplifier_Operational:TL072 U?
+U 1 1 63A42DFF
+P 2500 2150
+F 0 "U?" H 2500 2517 50  0000 C CNN
+F 1 "TL072" H 2500 2426 50  0000 C CNN
+F 2 "" H 2500 2150 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 2500 2150 50  0001 C CNN
+	1    2500 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Amplifier_Operational:TL072 U?
+U 2 1 63A42E3A
+P 4400 2150
+F 0 "U?" H 4400 2517 50  0000 C CNN
+F 1 "TL072" H 4400 2426 50  0000 C CNN
+F 2 "" H 4400 2150 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 4400 2150 50  0001 C CNN
+	2    4400 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Amplifier_Operational:TL072 U?
+U 3 1 63A42E77
+P 3350 3500
+F 0 "U?" H 3000 3600 50  0000 L CNN
+F 1 "TL072" H 2950 3500 50  0000 L CNN
+F 2 "" H 3350 3500 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3350 3500 50  0001 C CNN
+	3    3350 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 63A42F24
+P 3250 3200
+F 0 "#PWR?" H 3250 3050 50  0001 C CNN
+F 1 "+12V" H 3265 3373 50  0000 C CNN
+F 2 "" H 3250 3200 50  0001 C CNN
+F 3 "" H 3250 3200 50  0001 C CNN
+	1    3250 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:-12V #PWR?
+U 1 1 63A42F68
+P 3250 3800
+F 0 "#PWR?" H 3250 3900 50  0001 C CNN
+F 1 "-12V" H 3265 3973 50  0000 C CNN
+F 2 "" H 3250 3800 50  0001 C CNN
+F 3 "" H 3250 3800 50  0001 C CNN
+	1    3250 3800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 63A42FAB
+P 3400 3200
+F 0 "C?" V 3150 3350 50  0000 C CNN
+F 1 "0,1" V 3250 3350 50  0000 C CNN
+F 2 "" H 3438 3050 50  0001 C CNN
+F 3 "~" H 3400 3200 50  0001 C CNN
+	1    3400 3200
+	0    1    1    0   
+$EndComp
+Connection ~ 3250 3200
+$Comp
+L Device:C C?
+U 1 1 63A4300A
+P 3400 3800
+F 0 "C?" V 3500 3950 50  0000 C CNN
+F 1 "0,1" V 3600 3950 50  0000 C CNN
+F 2 "" H 3438 3650 50  0001 C CNN
+F 3 "~" H 3400 3800 50  0001 C CNN
+	1    3400 3800
+	0    1    1    0   
+$EndComp
+Connection ~ 3250 3800
+$Comp
+L power:GND #PWR?
+U 1 1 63A43077
+P 3550 3200
+F 0 "#PWR?" H 3550 2950 50  0001 C CNN
+F 1 "GND" V 3555 3072 50  0000 R CNN
+F 2 "" H 3550 3200 50  0001 C CNN
+F 3 "" H 3550 3200 50  0001 C CNN
+	1    3550 3200
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 63A430A2
+P 3550 3800
+F 0 "#PWR?" H 3550 3550 50  0001 C CNN
+F 1 "GND" V 3555 3672 50  0000 R CNN
+F 2 "" H 3550 3800 50  0001 C CNN
+F 3 "" H 3550 3800 50  0001 C CNN
+	1    3550 3800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 63A43249
+P 1950 2050
+F 0 "R?" V 1743 2050 50  0000 C CNN
+F 1 "10k" V 1834 2050 50  0000 C CNN
+F 2 "" V 1880 2050 50  0001 C CNN
+F 3 "~" H 1950 2050 50  0001 C CNN
+	1    1950 2050
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2200 2050 2100 2050
+$Comp
+L Device:R R?
+U 1 1 63A432A6
+P 1950 2650
+F 0 "R?" V 1743 2650 50  0000 C CNN
+F 1 "2k" V 1834 2650 50  0000 C CNN
+F 2 "" V 1880 2650 50  0001 C CNN
+F 3 "~" H 1950 2650 50  0001 C CNN
+	1    1950 2650
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 63A432D8
+P 2350 2650
+F 0 "R?" V 2143 2650 50  0000 C CNN
+F 1 "10k" V 2234 2650 50  0000 C CNN
+F 2 "" V 2280 2650 50  0001 C CNN
+F 3 "~" H 2350 2650 50  0001 C CNN
+	1    2350 2650
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 63A43306
+P 2500 2650
+F 0 "#PWR?" H 2500 2500 50  0001 C CNN
+F 1 "+12V" V 2515 2778 50  0000 L CNN
+F 2 "" H 2500 2650 50  0001 C CNN
+F 3 "" H 2500 2650 50  0001 C CNN
+	1    2500 2650
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 63A43329
+P 1800 2650
+F 0 "#PWR?" H 1800 2400 50  0001 C CNN
+F 1 "GND" V 1805 2522 50  0000 R CNN
+F 2 "" H 1800 2650 50  0001 C CNN
+F 3 "" H 1800 2650 50  0001 C CNN
+	1    1800 2650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2200 2250 2200 2650
+Wire Wire Line
+	2200 2650 2100 2650
+Connection ~ 2200 2650
+$Comp
+L Device:R_POT RV?
+U 1 1 63A433C4
+P 2950 2000
+F 0 "RV?" V 2743 2000 50  0000 C CNN
+F 1 "1m" V 2834 2000 50  0000 C CNN
+F 2 "" H 2950 2000 50  0001 C CNN
+F 3 "~" H 2950 2000 50  0001 C CNN
+	1    2950 2000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_POT RV?
+U 1 1 63A4347E
+P 2950 2300
+F 0 "RV?" V 2836 2300 50  0000 C CNN
+F 1 "1m" V 2745 2300 50  0000 C CNN
+F 2 "" H 2950 2300 50  0001 C CNN
+F 3 "~" H 2950 2300 50  0001 C CNN
+	1    2950 2300
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2800 2000 2800 2150
+Wire Wire Line
+	2800 2150 2800 2300
+Connection ~ 2800 2150
+Wire Wire Line
+	2800 2150 2950 2150
+Connection ~ 2950 2150
+$Comp
+L Diode:LL4148 D?
+U 1 1 63A43593
+P 3250 2000
+F 0 "D?" H 3250 1784 50  0000 C CNN
+F 1 "LL4148" H 3250 1875 50  0000 C CNN
+F 2 "Diode_SMD:D_MiniMELF" H 3250 1825 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/85557/ll4148.pdf" H 3250 2000 50  0001 C CNN
+	1    3250 2000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Diode:LL4148 D?
+U 1 1 63A4363A
+P 3250 2300
+F 0 "D?" H 3250 2516 50  0000 C CNN
+F 1 "LL4148" H 3250 2425 50  0000 C CNN
+F 2 "Diode_SMD:D_MiniMELF" H 3250 2125 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/85557/ll4148.pdf" H 3250 2300 50  0001 C CNN
+	1    3250 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 2000 3400 2050
+$Comp
+L Device:CP C?
+U 1 1 63A43700
+P 3400 2450
+F 0 "C?" H 3518 2496 50  0000 L CNN
+F 1 "20,0 x 35v" H 3518 2405 50  0000 L CNN
+F 2 "" H 3438 2300 50  0001 C CNN
+F 3 "~" H 3400 2450 50  0001 C CNN
+	1    3400 2450
+	1    0    0    -1  
+$EndComp
+Connection ~ 3400 2300
+$Comp
+L power:-12V #PWR?
+U 1 1 63A43768
+P 3400 2600
+F 0 "#PWR?" H 3400 2700 50  0001 C CNN
+F 1 "-12V" H 3415 2773 50  0000 C CNN
+F 2 "" H 3400 2600 50  0001 C CNN
+F 3 "" H 3400 2600 50  0001 C CNN
+	1    3400 2600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4100 2050 3400 2050
+Connection ~ 3400 2050
+Wire Wire Line
+	3400 2050 3400 2300
+$Comp
+L Device:R R?
+U 1 1 63A43935
+P 4850 2150
+F 0 "R?" V 4643 2150 50  0000 C CNN
+F 1 "1k" V 4734 2150 50  0000 C CNN
+F 2 "" V 4780 2150 50  0001 C CNN
+F 3 "~" H 4850 2150 50  0001 C CNN
+	1    4850 2150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4100 2250 4100 2450
+Wire Wire Line
+	4100 2450 5000 2450
+Wire Wire Line
+	5000 2450 5000 2150
+Wire Wire Line
+	5000 2150 5150 2150
+Connection ~ 5000 2150
+$Comp
+L Device:C C?
+U 1 1 63A43B00
+P 2450 1300
+F 0 "C?" V 2200 1450 50  0000 C CNN
+F 1 "100" V 2300 1450 50  0000 C CNN
+F 2 "" H 2488 1150 50  0001 C CNN
+F 3 "~" H 2450 1300 50  0001 C CNN
+	1    2450 1300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 63A43BE1
+P 2450 1650
+F 0 "R?" V 2300 1850 50  0000 C CNN
+F 1 "1m" V 2400 1850 50  0000 C CNN
+F 2 "" V 2380 1650 50  0001 C CNN
+F 3 "~" H 2450 1650 50  0001 C CNN
+	1    2450 1650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2800 2000 2800 1650
+Wire Wire Line
+	2800 1650 2600 1650
+Connection ~ 2800 2000
+Wire Wire Line
+	2800 1650 2800 1300
+Wire Wire Line
+	2800 1300 2600 1300
+Connection ~ 2800 1650
+Wire Wire Line
+	2200 2050 2200 1650
+Wire Wire Line
+	2200 1650 2300 1650
+Connection ~ 2200 2050
+Wire Wire Line
+	2300 1300 2200 1300
+Wire Wire Line
+	2200 1300 2200 1650
+Connection ~ 2200 1650
+$EndSCHEMATC

@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "dz_ADAR-rescue")(type "Legacy")(uri "${KIPRJMOD}/dz_ADAR-rescue.lib")(options "")(descr ""))
+)
