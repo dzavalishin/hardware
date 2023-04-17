@@ -1,0 +1,18 @@
+Завалишин Дмитрий Константинович, +7 916 690-3208 (dz@dz.ru)
+
+DelSol_PSU-Gerbers - 10 штук
+
+DelSol_Voice-Gerbers - 12 штук
+
+DelSol_Preamp-Gerbers - 4 штуки
+DelSol_Mixer-Gerbers  - 4 штуки
+DelSol_Modulator-Gerbers  - 4 штуки
+
+Все параметры производства стандартные.
+
+На всякий случай прилагаю проекты kicad
+
+
+Адрес:
+
+г. Москва, Средний Трёхгорный переулок, д. 7 кв. 28
