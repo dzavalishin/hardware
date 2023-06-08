@@ -4084,7 +4084,7 @@
     (property "Value" "ECC88" (id 1) (at 186.69 137.1599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Valve:Valve_Noval_P" (id 2) (at 187.198 146.05 0)
+    (property "Footprint" "Valve:Valve_ECC-83-2" (id 2) (at 187.198 146.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.r-type.org/pdfs/ecc88.pdf" (id 3) (at 180.34 135.89 0)
@@ -5222,7 +5222,7 @@
     (property "Value" "ECC88" (id 1) (at 217.17 137.1599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Valve:Valve_Noval_P" (id 2) (at 217.678 146.05 0)
+    (property "Footprint" "Valve:Valve_ECC-83-2" (id 2) (at 217.678 146.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.r-type.org/pdfs/ecc88.pdf" (id 3) (at 210.82 135.89 0)
@@ -6155,7 +6155,7 @@
     (property "Value" "ECC88" (id 1) (at 264.16 125.7299 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Valve:Valve_Noval_P" (id 2) (at 264.668 134.62 0)
+    (property "Footprint" "Valve:Valve_ECC-83-2" (id 2) (at 264.668 134.62 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://www.r-type.org/pdfs/ecc88.pdf" (id 3) (at 257.81 124.46 0)
@@ -6639,13 +6639,13 @@
       (reference "U1") (unit 3) (value "TL072") (footprint "Package_DIP:DIP-8_W7.62mm_LongPads")
     )
     (path "/48b0637a-c3e9-4cb0-b347-c41bded4a332"
-      (reference "U2") (unit 1) (value "ECC88") (footprint "Valve:Valve_Noval_P")
+      (reference "U2") (unit 1) (value "ECC88") (footprint "Valve:Valve_ECC-83-2")
     )
     (path "/a2064ccf-0679-42a2-9a40-149226a0a3d3"
-      (reference "U2") (unit 2) (value "ECC88") (footprint "Valve:Valve_Noval_P")
+      (reference "U2") (unit 2) (value "ECC88") (footprint "Valve:Valve_ECC-83-2")
     )
     (path "/ff1f60f5-a872-466d-b582-6faafd6c1452"
-      (reference "U2") (unit 3) (value "ECC88") (footprint "Valve:Valve_Noval_P")
+      (reference "U2") (unit 3) (value "ECC88") (footprint "Valve:Valve_ECC-83-2")
     )
     (path "/821b83e5-9401-447e-a583-42ebefdc5367"
       (reference "U3") (unit 1) (value "MC34063AP") (footprint "Package_DIP:DIP-8_W7.62mm")

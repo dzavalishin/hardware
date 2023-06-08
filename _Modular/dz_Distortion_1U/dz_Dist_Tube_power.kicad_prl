@@ -1,7 +1,7 @@
 {
   "board": {
     "active_layer": 0,
-    "active_layer_preset": "All Layers",
+    "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_nets": [],
     "high_contrast_mode": 0,
@@ -66,25 +66,13 @@
     "zone_display_mode": 0
   },
   "meta": {
-    "filename": "dz_Distortion_Main.kicad_prl",
+    "filename": "dz_Dist_Tube_power.kicad_prl",
     "version": 3
   },
   "project": {
     "files": [
       {
-        "name": "dz_Distortion_Main.kicad_pcb",
-        "open": false,
-        "window": {
-          "display": 0,
-          "maximized": true,
-          "pos_x": 80,
-          "pos_y": 76,
-          "size_x": 1280,
-          "size_y": 720
-        }
-      },
-      {
-        "name": "dz_Distortion_Main.kicad_sch",
+        "name": "dz_Dist_Tube_power.kicad_sch",
         "open": false,
         "window": {
           "display": 0,
