@@ -3609,7 +3609,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 124.46 178.435 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 0d28539d-746f-451f-a767-4a526f61e008)
-    (property "Reference" "H?" (id 0) (at 127 177.6003 0)
+    (property "Reference" "H4" (id 0) (at 127 177.6003 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Value" "MountingHole" (id 1) (at 127 180.1372 0)
@@ -4749,7 +4749,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 124.46 173.355 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 5b35710d-1a85-4003-9f46-b7929f24b900)
-    (property "Reference" "H?" (id 0) (at 127 172.5203 0)
+    (property "Reference" "H3" (id 0) (at 127 172.5203 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Value" "MountingHole" (id 1) (at 127 175.0572 0)
@@ -5431,7 +5431,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 119.38 178.435 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid a02c2d3a-f9a0-4c0f-8472-523b8dbd678b)
-    (property "Reference" "H?" (id 0) (at 121.92 177.6003 0)
+    (property "Reference" "H2" (id 0) (at 121.92 177.6003 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Value" "MountingHole" (id 1) (at 121.92 180.1372 0)
@@ -5928,7 +5928,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 119.38 173.355 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid c7203091-36ec-4943-9189-8bc0da9b6f6e)
-    (property "Reference" "H?" (id 0) (at 121.92 172.5203 0)
+    (property "Reference" "H1" (id 0) (at 121.92 172.5203 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Value" "MountingHole" (id 1) (at 121.92 175.0572 0)
@@ -6861,17 +6861,17 @@
     (path "/4b7cb86c-2df4-4d40-b446-e9c10cd53893"
       (reference "D10") (unit 1) (value "SS34") (footprint "Diode_SMD:D_SMA-SMB_Universal_Handsoldering")
     )
-    (path "/0d28539d-746f-451f-a767-4a526f61e008"
-      (reference "H?") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
-    )
-    (path "/5b35710d-1a85-4003-9f46-b7929f24b900"
-      (reference "H?") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
+    (path "/c7203091-36ec-4943-9189-8bc0da9b6f6e"
+      (reference "H1") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
     )
     (path "/a02c2d3a-f9a0-4c0f-8472-523b8dbd678b"
-      (reference "H?") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
+      (reference "H2") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
     )
-    (path "/c7203091-36ec-4943-9189-8bc0da9b6f6e"
-      (reference "H?") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
+    (path "/5b35710d-1a85-4003-9f46-b7929f24b900"
+      (reference "H3") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
+    )
+    (path "/0d28539d-746f-451f-a767-4a526f61e008"
+      (reference "H4") (unit 1) (value "MountingHole") (footprint "MountingHole:MountingHole_3.2mm_M3")
     )
     (path "/4c3e4926-ace7-442d-bbc1-b3f725dd4262"
       (reference "J1") (unit 1) (value "+20v Unreg") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical")
