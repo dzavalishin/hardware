@@ -3927,7 +3927,7 @@
   (symbol (lib_id "Device:R") (at 138.43 29.21 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 1d124c3d-50a1-4b01-9c10-1853aa60cbc7)
-    (property "Reference" "R?" (id 0) (at 137.795 27.305 0)
+    (property "Reference" "R40" (id 0) (at 137.795 27.305 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "47k" (id 1) (at 139.7 27.94 0)
@@ -4188,7 +4188,7 @@
   (symbol (lib_id "power:+5V") (at 134.62 29.21 90) (mirror x) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 27ed5892-3b55-41c1-ac33-93af08384b6f)
-    (property "Reference" "#PWR?" (id 0) (at 138.43 29.21 0)
+    (property "Reference" "#PWR053" (id 0) (at 138.43 29.21 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+5V" (id 1) (at 129.54 29.21 90)
@@ -4685,7 +4685,7 @@
   (symbol (lib_id "Device:R") (at 138.43 35.56 270) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 4e4715dc-36ee-4478-9f0a-8e834ac0c4d9)
-    (property "Reference" "R?" (id 0) (at 137.795 33.655 0)
+    (property "Reference" "R41" (id 0) (at 137.795 33.655 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "47k" (id 1) (at 139.7 34.29 0)
@@ -6834,14 +6834,14 @@
     (path "/d08e71e7-6a80-4f33-870b-412194445500"
       (reference "#PWR052") (unit 1) (value "GND") (footprint "")
     )
+    (path "/27ed5892-3b55-41c1-ac33-93af08384b6f"
+      (reference "#PWR053") (unit 1) (value "+5V") (footprint "")
+    )
     (path "/7960e7d6-4e1c-4b58-a7c5-b29953fe0b42"
       (reference "#PWR0101") (unit 1) (value "GND") (footprint "")
     )
     (path "/c88e86d5-7f73-4ae2-993a-706f02ba8b8e"
       (reference "#PWR0102") (unit 1) (value "+15V") (footprint "")
-    )
-    (path "/27ed5892-3b55-41c1-ac33-93af08384b6f"
-      (reference "#PWR?") (unit 1) (value "+5V") (footprint "")
     )
     (path "/a3908678-a5b7-4102-88c1-2baf66da67d4"
       (reference "C1") (unit 1) (value "0,1") (footprint "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder")
@@ -7168,10 +7168,10 @@
       (reference "R39") (unit 1) (value "30k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/1d124c3d-50a1-4b01-9c10-1853aa60cbc7"
-      (reference "R?") (unit 1) (value "47k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
+      (reference "R40") (unit 1) (value "47k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/4e4715dc-36ee-4478-9f0a-8e834ac0c4d9"
-      (reference "R?") (unit 1) (value "47k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
+      (reference "R41") (unit 1) (value "47k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/06fe2f17-3328-45cb-8459-2e8bcbd16b01"
       (reference "U1") (unit 1) (value "ATmega8-16P") (footprint "Package_DIP:DIP-28_W7.62mm")

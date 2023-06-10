@@ -1,7 +1,7 @@
 {
   "board": {
     "active_layer": 37,
-    "active_layer_preset": "Front Assembly View",
+    "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_nets": [],
     "high_contrast_mode": 0,
@@ -62,7 +62,7 @@
       35,
       36
     ],
-    "visible_layers": "00290b0_00000001",
+    "visible_layers": "00290a0_80000000",
     "zone_display_mode": 0
   },
   "meta": {
@@ -81,6 +81,18 @@
           "pos_y": 76,
           "size_x": 1280,
           "size_y": 720
+        }
+      },
+      {
+        "name": "dz_TapeDelay_Control.kicad_sch",
+        "open": false,
+        "window": {
+          "display": 0,
+          "maximized": true,
+          "pos_x": -15,
+          "pos_y": 25,
+          "size_x": 1440,
+          "size_y": 767
         }
       }
     ]
