@@ -91,7 +91,7 @@ STANDARD
   9
 $CLAYER
   8
-Motor
+Plate
   9
 $CELTYPE
   6
@@ -1111,9 +1111,9 @@ AcDbViewportTableRecord
  21
 1
  12
-41.56408020144794
+84.23202673220501
  22
-71.20839753062563
+6.070776701420182
  13
 0
  23
@@ -1139,7 +1139,7 @@ AcDbViewportTableRecord
  37
 0
  40
-25.30180148723537
+11.7108564071315
  41
 1.912434325744308
  42
@@ -6641,9 +6641,9 @@ ByLayer
 100
 AcDbCircle
  10
-71.00000000000007
+66.60660171779821
  20
-120.0000000000001
+130.6066017177983
  40
 1.999999999999929
   0
@@ -6663,15 +6663,59 @@ ByLayer
 100
 AcDbCircle
  10
-71
+66.60660171779821
  20
-120
+130.6066017177982
  40
 7.5
   0
-MTEXT
+CIRCLE
   5
 F6
+100
+AcDbEntity
+  8
+Plate
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+73.67766952966369
+ 20
+123.5355339059327
+ 40
+1.5
+  0
+CIRCLE
+  5
+F7
+100
+AcDbEntity
+  8
+Plate
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+59.53553390593274
+ 20
+137.6776695296637
+ 40
+1.5
+  0
+MTEXT
+  5
+F8
 100
 AcDbEntity
   8
@@ -6685,9 +6729,9 @@ ByLayer
 100
 AcDbMText
  10
-74
+70
  20
-120
+132
  30
 0
  40
@@ -6699,7 +6743,7 @@ AcDbMText
  72
     1
   1
-Motor
+Step\PMotor
   7
 
 210
@@ -6714,6 +6758,378 @@ Motor
     2
  44
 1
+  0
+MTEXT
+  5
+F9
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbMText
+ 10
+36
+ 20
+110
+ 30
+0
+ 40
+1
+ 41
+4.222603708534079
+ 71
+    1
+ 72
+    1
+  1
+Optical\Psensor
+  7
+
+210
+0
+220
+0
+230
+1
+ 50
+0
+ 73
+    2
+ 44
+1
+  0
+LINE
+  5
+FA
+100
+AcDbEntity
+  8
+Caret
+  6
+DASHDOT2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+0
+ 20
+10
+ 11
+0
+ 21
+0
+  0
+LINE
+  5
+FB
+100
+AcDbEntity
+  8
+Caret
+  6
+DASHDOT2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+144
+ 20
+10
+ 11
+0
+ 21
+10
+  0
+LINE
+  5
+FC
+100
+AcDbEntity
+  8
+Caret
+  6
+DASHDOT2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+144
+ 20
+0
+ 11
+144
+ 21
+10
+  0
+CIRCLE
+  5
+FD
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+154
+ 20
+14
+ 40
+2
+  0
+LINE
+  5
+FE
+100
+AcDbEntity
+  8
+Tape
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+154.175338133758
+ 20
+12.00770069044577
+ 11
+120
+ 21
+9
+  0
+MTEXT
+  5
+FF
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbMText
+ 10
+146
+ 20
+15
+ 30
+0
+ 40
+1
+ 41
+5.000000514287398
+ 71
+    1
+ 72
+    1
+  1
+Capstan
+  7
+
+210
+0
+220
+0
+230
+1
+ 50
+0
+ 73
+    2
+ 44
+1
+  0
+CIRCLE
+  5
+100
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+154
+ 20
+6.25
+ 40
+1
+  0
+CIRCLE
+  5
+101
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+154
+ 20
+6.25
+ 40
+5.75
+  0
+CIRCLE
+  5
+102
+100
+AcDbEntity
+  8
+Plate
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+166
+ 20
+6.25
+ 40
+1
+  0
+LINE
+  5
+103
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+169
+ 20
+9.25
+ 11
+169
+ 21
+3.25
+  0
+LINE
+  5
+104
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+169
+ 20
+3.25
+ 11
+151
+ 21
+3.25
+  0
+LINE
+  5
+105
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+151
+ 20
+3.25
+ 11
+151
+ 21
+9.25
+  0
+LINE
+  5
+106
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+151
+ 20
+9.25
+ 11
+169
+ 21
+9.25
   0
 ENDSEC
   0
