@@ -91,7 +91,7 @@ STANDARD
   9
 $CLAYER
   8
-Etc
+Tape
   9
 $CELTYPE
   6
@@ -1111,9 +1111,9 @@ AcDbViewportTableRecord
  21
 1
  12
-106.2557351065992
+129.8225636748267
  22
-12.7970396951523
+132.558870637528
  13
 0
  23
@@ -1139,7 +1139,7 @@ AcDbViewportTableRecord
  37
 0
  40
-28.76814829107072
+173.603475078047
  41
 1.912434325744308
  42
@@ -2391,7 +2391,7 @@ AcDbLayerTableRecord
   2
 Reference
  70
-    1
+    0
  62
     6
   6
@@ -9090,6 +9090,596 @@ unicode
     2
  44
 1
+  0
+LINE
+  5
+156
+100
+AcDbEntity
+  8
+Tape box
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+181
+ 20
+14
+ 11
+180
+ 21
+14
+  0
+LINE
+  5
+157
+100
+AcDbEntity
+  8
+Tape box
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+181
+ 20
+16
+ 11
+180
+ 21
+16
+  0
+LINE
+  5
+158
+100
+AcDbEntity
+  8
+Tape box
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+181
+ 20
+10
+ 11
+180
+ 21
+10
+  0
+LINE
+  5
+159
+100
+AcDbEntity
+  8
+Tape box
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+181
+ 20
+8
+ 11
+180
+ 21
+8
+  0
+LINE
+  5
+15A
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+214
+ 20
+20
+ 11
+190
+ 21
+20
+  0
+LINE
+  5
+15B
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+190
+ 20
+20
+ 11
+190
+ 21
+34
+  0
+LINE
+  5
+15C
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+190
+ 20
+34
+ 11
+214
+ 21
+34
+  0
+LINE
+  5
+15D
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+214
+ 20
+34
+ 11
+214
+ 21
+28
+  0
+LINE
+  5
+15E
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+214
+ 20
+28
+ 11
+210
+ 21
+28
+  0
+LINE
+  5
+15F
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+210
+ 20
+28
+ 11
+210
+ 21
+26
+  0
+LINE
+  5
+160
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+210
+ 20
+26
+ 11
+214
+ 21
+26
+  0
+LINE
+  5
+161
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+214
+ 20
+26
+ 11
+214
+ 21
+20
+  0
+LINE
+  5
+162
+100
+AcDbEntity
+  8
+Leader
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+210
+ 20
+26
+ 11
+190
+ 21
+26
+  0
+LINE
+  5
+163
+100
+AcDbEntity
+  8
+Leader
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+210
+ 20
+28
+ 11
+190
+ 21
+28
+  0
+CIRCLE
+  5
+164
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+212
+ 20
+23
+ 40
+1
+  0
+CIRCLE
+  5
+165
+100
+AcDbEntity
+  8
+Leader
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+212
+ 20
+31
+ 40
+1
+  0
+LINE
+  5
+166
+100
+AcDbEntity
+  8
+Leader
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+210
+ 20
+28
+ 11
+210
+ 21
+34
+  0
+LINE
+  5
+167
+100
+AcDbEntity
+  8
+Leader
+  6
+DASHED2
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+210
+ 20
+26
+ 11
+210
+ 21
+20
+  0
+MTEXT
+  5
+168
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbMText
+ 10
+190
+ 20
+36
+ 30
+0
+ 40
+1
+ 41
+24.5
+ 71
+    1
+ 72
+    1
+  1
+Развертка направляющего короба
+  7
+unicode
+210
+0
+220
+0
+230
+1
+ 50
+0
+ 73
+    2
+ 44
+1
+  0
+LINE
+  5
+169
+100
+AcDbEntity
+  8
+Reference
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+184
+ 20
+195
+ 11
+194
+ 21
+195
+  0
+LINE
+  5
+16A
+100
+AcDbEntity
+  8
+Reference
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+181
+ 20
+195
+ 11
+191
+ 21
+195
+  0
+CIRCLE
+  5
+16B
+100
+AcDbEntity
+  8
+Plate
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+-20
+ 20
+195
+ 40
+1.5
+  0
+CIRCLE
+  5
+16C
+100
+AcDbEntity
+  8
+Etc
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbCircle
+ 10
+-20
+ 20
+195
+ 40
+2
+  0
+LINE
+  5
+16D
+100
+AcDbEntity
+  8
+Tape
+  6
+ByLayer
+ 62
+  256
+370
+   -1
+100
+AcDbLine
+ 10
+-21.99903622812665
+ 20
+194.9379181295613
+ 11
+-16.99903622812665
+ 21
+33.93791812956128
   0
 ENDSEC
   0
