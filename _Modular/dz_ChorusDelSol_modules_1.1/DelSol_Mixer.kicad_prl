@@ -62,7 +62,7 @@
       35,
       36
     ],
-    "visible_layers": "0095075_80000000",
+    "visible_layers": "0095275_80000001",
     "zone_display_mode": 0
   },
   "meta": {
@@ -70,6 +70,31 @@
     "version": 3
   },
   "project": {
-    "files": []
+    "files": [
+      {
+        "name": "DelSol_Mixer.kicad_sch",
+        "open": false,
+        "window": {
+          "display": 0,
+          "maximized": true,
+          "pos_x": -15,
+          "pos_y": 25,
+          "size_x": 1440,
+          "size_y": 767
+        }
+      },
+      {
+        "name": "DelSol_Mixer.kicad_pcb",
+        "open": false,
+        "window": {
+          "display": 0,
+          "maximized": true,
+          "pos_x": 80,
+          "pos_y": 76,
+          "size_x": 1280,
+          "size_y": 720
+        }
+      }
+    ]
   }
 }
