@@ -1,7 +1,7 @@
 {
   "board": {
     "active_layer": 0,
-    "active_layer_preset": "",
+    "active_layer_preset": "All Layers",
     "auto_track_width": true,
     "hidden_nets": [],
     "high_contrast_mode": 0,
@@ -70,19 +70,6 @@
     "version": 3
   },
   "project": {
-    "files": [
-      {
-        "name": "dz_Dist_Tube_power.kicad_sch",
-        "open": false,
-        "window": {
-          "display": 0,
-          "maximized": true,
-          "pos_x": -15,
-          "pos_y": 25,
-          "size_x": 1440,
-          "size_y": 767
-        }
-      }
-    ]
+    "files": []
   }
 }

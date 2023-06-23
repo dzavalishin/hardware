@@ -2498,6 +2498,12 @@
     (uuid fe8a1577-a66e-4991-8109-ce1f2b964ad1)
   )
 
+  (text "КТ503 синяя точка сверху\nКТ502 белая точка сверху\n"
+    (at 252.73 33.02 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 3029186c-7ff5-43f7-ac87-06fa5af1f38a)
+  )
+
   (label "In L" (at 156.21 168.91 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 069c9d7f-53ac-44e7-a4fb-e635e2e6fa1a)
