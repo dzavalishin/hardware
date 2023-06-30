@@ -2009,6 +2009,12 @@
     (uuid fe6dc634-8d1c-4878-8371-f9ac61d548b2)
   )
 
+  (text "For MN3207 (positive power) version:\nPut all jumpers to other (open) position\nQ1, Q2 are NPN (КТ3102 or similar)\nDon't mount R20, D8, R21 and caps around\nMount D4, R19, U3 and caps around"
+    (at 195.58 152.4 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 1d12acf4-9865-46ed-83b1-7f3c7c7e3359)
+  )
+
   (label "Vdd" (at 137.16 166.37 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 25f97caa-97a9-4ef9-8a9a-22354c0fb0a2)
