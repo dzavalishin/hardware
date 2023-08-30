@@ -1,18 +1,32 @@
-#include "timer-api.h"
+#include <timer-api.h>
+#include <Wire.h>
+#include <pcf8574.h>
 
 // ST_CP of 74HC595 - CS0
-//int latchPin = 11;
 #define latchPin 11
+
 // SH_CP of 74HC595 - SCK
-int clockPin = 13;
+#define clockPin 13
+
 // DS of 74HC595 - MOSI
-int dataPin = 12;
+#define dataPin 12
+
 
 #define S1 10
 #define S2 9
 
 #define SENSOR_ON(v) (v != 0)
 #define SENSOR_OFF(v) (v == 0)
+
+// 3 sec
+#define FAIL_DETECT_TIME 6 
+
+// 60 sec - prevent overheat
+#define FAIL_RETRY_TIME 120
+
+
+PCF8574 controls(0x20);
+
 
 int stateTable[] = 
 {
@@ -95,7 +109,7 @@ class SMotor
   void onTimer() {
     mTime++;
 
-    if( mTime > 10) // 5 sec
+    if( mTime > FAIL_DETECT_TIME)
       setMode(FAILED);    
   }
 
@@ -132,8 +146,12 @@ void setup()
   pinMode(S1, INPUT);
   pinMode(S2, INPUT);
 
-  //m1.speed = -1;
-  //m2.speed = 1;
+  Wire.begin();
+
+  pinMode(controls, 0, OUTPUT);
+  pinMode(controls, 1, OUTPUT);
+  pinMode(controls, 2, OUTPUT);
+  pinMode(controls, 3, OUTPUT);
 
   timer_init_ISR_2Hz(TIMER_DEFAULT);
 }
@@ -151,7 +169,8 @@ void loop()
   
   // pause before next value: 200 pulses per sec
   //delay(400);
-  delay(1000/200);
+  //delay(1000/200);
+  delay(1000/400);
 }
 
 
@@ -168,7 +187,7 @@ void timer_handle_interrupts(int timer)
     if( failTime > 0 )
     {
       failTime++;
-      if( failTime > 40 ) // 20 sec - prevent overheat
+      if( failTime > FAIL_RETRY_TIME ) 
       {
         failTime = 0;
         // allways recalibrate both
