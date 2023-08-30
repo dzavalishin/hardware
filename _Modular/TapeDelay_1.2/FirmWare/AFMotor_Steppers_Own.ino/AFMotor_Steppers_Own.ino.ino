@@ -168,6 +168,7 @@ void setup()
 {
   delay(200);
   Serial.begin(115200);
+  //Serial.begin(9600);
 
   Serial.print("Search for PCF8574: ");
     // SEARCH FOR PCF8574
@@ -193,17 +194,21 @@ void setup()
   pinMode(controls, 6, OUTPUT);
   pinMode(controls, 7, OUTPUT);
 
-  digitalWrite( controls, 5, 0);
-  digitalWrite( controls, 7, 0);
+  //digitalWrite( controls, 5, 0);
+  //digitalWrite( controls, 7, 0);
+  controls.write(0x00);
   delay(200);
-  digitalWrite( controls, 5, 1);
-  digitalWrite( controls, 7, 1);
+  //digitalWrite( controls, 5, 1);
+  //digitalWrite( controls, 7, 1);
+  controls.write(0xFF);
   delay(200);
-  digitalWrite( controls, 5, 0);
-  digitalWrite( controls, 7, 0);
+  //digitalWrite( controls, 5, 0);
+  //digitalWrite( controls, 7, 0);
+  controls.write(0x00);
   delay(200);
-  digitalWrite( controls, 5, 1);
-  digitalWrite( controls, 7, 1);
+  //digitalWrite( controls, 5, 1);
+  //digitalWrite( controls, 7, 1);
+  controls.write(0xFF);
 
 #if GR_DISPL
   u8g2.begin();
@@ -227,7 +232,8 @@ void loop()
 
   if( 0 == (n&0x1F) )
   {
-    //digitalWrite( controls, 5, halfSec & 1);
+    digitalWrite( controls, 4, halfSec & 1);
+    digitalWrite( controls, 5, halfSec & 1);
 #if GR_DISPL
     // picture loop  
     u8g2.clearBuffer();
