@@ -1,6 +1,15 @@
+#define GR_DISPL 0
+
+
 #include <timer-api.h>
 #include <Wire.h>
 #include <pcf8574.h>
+
+#if GR_DISPL
+#  include <U8g2lib.h>
+#endif
+
+
 
 // ST_CP of 74HC595 - CS0
 #define latchPin 11
@@ -27,6 +36,9 @@
 
 PCF8574 controls(0x20);
 
+#if GR_DISPL
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+#endif
 
 int stateTable[] = 
 {
@@ -153,14 +165,33 @@ void setup()
   pinMode(controls, 2, OUTPUT);
   pinMode(controls, 3, OUTPUT);
 
+#if GR_DISPL
+  u8g2.begin();
+
+  u8g2.setFont(u8g2_font_6x10_tf);
+  u8g2.setFontRefHeightExtendedText();
+  u8g2.setDrawColor(1);
+  u8g2.setFontPosTop();
+  u8g2.setFontDirection(0);
+#endif  
+
   timer_init_ISR_2Hz(TIMER_DEFAULT);
 }
 
 int n = 0;
 void loop() 
 {
-  //n++;
-  //sendStepperState(n);
+  n++;
+
+#if GR_DISPL
+  if( 0 == (n&0x1F) )
+  {
+    // picture loop  
+    u8g2.clearBuffer();
+    draw();
+    u8g2.sendBuffer();
+  }
+#endif
   
   m1.step(  digitalRead(S1) );
   m2.step(  digitalRead(S2) );
@@ -210,6 +241,14 @@ void timer_handle_interrupts(int timer)
 }
 
 
+
+
+
+void draw()
+{
+
+  u8g2.drawStr( 2, 0, "Test");
+}
 
 
 
