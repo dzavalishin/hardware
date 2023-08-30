@@ -9,6 +9,9 @@
 #  include <U8g2lib.h>
 #endif
 
+// --------------------------------------------------
+// Defies
+// --------------------------------------------------
 
 
 // ST_CP of 74HC595 - CS0
@@ -33,12 +36,24 @@
 // 60 sec - prevent overheat
 #define FAIL_RETRY_TIME 120
 
+// --------------------------------------------------
+// Globals
+// --------------------------------------------------
+
+int halfSec = 0;
+
 
 PCF8574 controls(0x20);
 
 #if GR_DISPL
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
+
+
+
+
+
+
 
 int stateTable[] = 
 {
@@ -151,6 +166,19 @@ volatile SMotor m1, m2;
 
 void setup() 
 {
+  delay(200);
+  Serial.begin(115200);
+
+  Serial.print("Search for PCF8574: ");
+    // SEARCH FOR PCF8574
+    for(int i = 0;i < 8;i++) {
+        int address = PCF8574::combinationToAddress(i, false);
+        if(PCF8574(address).read() != -1) {
+            Serial.print("Found PCF8574: addr = 0x");
+            Serial.println(address, HEX);
+        }
+    }
+  
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
@@ -160,10 +188,22 @@ void setup()
 
   Wire.begin();
 
-  pinMode(controls, 0, OUTPUT);
-  pinMode(controls, 1, OUTPUT);
-  pinMode(controls, 2, OUTPUT);
-  pinMode(controls, 3, OUTPUT);
+  pinMode(controls, 4, OUTPUT);
+  pinMode(controls, 5, OUTPUT);
+  pinMode(controls, 6, OUTPUT);
+  pinMode(controls, 7, OUTPUT);
+
+  digitalWrite( controls, 5, 0);
+  digitalWrite( controls, 7, 0);
+  delay(200);
+  digitalWrite( controls, 5, 1);
+  digitalWrite( controls, 7, 1);
+  delay(200);
+  digitalWrite( controls, 5, 0);
+  digitalWrite( controls, 7, 0);
+  delay(200);
+  digitalWrite( controls, 5, 1);
+  digitalWrite( controls, 7, 1);
 
 #if GR_DISPL
   u8g2.begin();
@@ -183,15 +223,18 @@ void loop()
 {
   n++;
 
-#if GR_DISPL
+  
+
   if( 0 == (n&0x1F) )
   {
+    //digitalWrite( controls, 5, halfSec & 1);
+#if GR_DISPL
     // picture loop  
     u8g2.clearBuffer();
     draw();
     u8g2.sendBuffer();
-  }
 #endif
+  }
   
   m1.step(  digitalRead(S1) );
   m2.step(  digitalRead(S2) );
@@ -209,6 +252,10 @@ int failTime = 0;
 int failCount = 0;
 void timer_handle_interrupts(int timer) 
 {
+  halfSec++;
+  
+  //digitalWrite( controls, 5, halfSec & 1);
+  
     if( (failTime == 0) && (m1.isFailed() || m2.isFailed()) )
     {
       failTime = 1;
