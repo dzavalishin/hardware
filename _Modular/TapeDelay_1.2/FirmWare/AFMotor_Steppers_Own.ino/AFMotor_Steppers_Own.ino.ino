@@ -38,7 +38,7 @@
 #define SENSOR_OFF(v) (!SENSOR_ON(v))
 
 // 2 sec
-#define FAIL_DETECT_TIME 6 
+#define FAIL_DETECT_TIME 3
 
 // 60 sec - prevent overheat
 #define FAIL_RETRY_TIME 120
@@ -74,16 +74,19 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 // Debouncer
 // --------------------------------------------------
 
+#define DEB_MASK 0b01111
+
 class Debouncer
 {
   unsigned char history = 0;
+  unsigned char result = 0;
   unsigned char prev = 0;
 
   public:
 
   int inline get()
   {
-    return ( v & 0b1111 ) == 0b1111;
+    return result;
   }
 
   int process( int v )
@@ -91,7 +94,10 @@ class Debouncer
     history <<= 1;
     history |= v ? 1 : 0;
 
-    return get();
+    if(( history & DEB_MASK ) == DEB_MASK) result = 1;
+    if(( history & DEB_MASK ) == 0) result = 0;
+
+    return result;
   }
 
   void printChanged(char *caption)
@@ -347,19 +353,13 @@ void loop()
   }
 
   int s1 = s1d.process( digitalRead(S1) );
-  s1d.
+  s1d.printChanged("S1 = ");
 
-  int s1 = digitalRead(S1);
-  if( s1 != oldS1 )
-  {
-    oldS1 = s1;
-      Serial.print("S1 = ");
-      Serial.print(s1);
-      Serial.print("\n");
-  }
+  int s2 = s2d.process( digitalRead(S2) );
+  s2d.printChanged("S2 = ");
   
-  m1.step(  digitalRead(S1) );
-  m2.step(  digitalRead(S2) );
+  m1.step( s1 );
+  m2.step( s2 );
 
   sendStepperState();
   
@@ -502,5 +502,6 @@ void sendStepperState(int state)
 void setSolenoid( int on )
 {
   //digitalWrite( SOLENOID, on); 
+  // Debug
   digitalWrite( SOLENOID, 0); 
 }
