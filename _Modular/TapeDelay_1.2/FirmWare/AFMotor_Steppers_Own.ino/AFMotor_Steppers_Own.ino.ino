@@ -23,6 +23,10 @@
 // DS of 74HC595 - MOSI
 #define dataPin 12
 
+#define PCF_RG_RED 4
+#define PCF_RG_GREEN 5
+#define PCF_YELLOW 6
+#define PCF_GREEN 7
 
 #define S1 10
 #define S2 9
@@ -41,6 +45,8 @@
 // --------------------------------------------------
 
 int halfSec = 0;
+int failTime = 0;
+int failCount = 0;
 
 
 PCF8574 controls(0x20);
@@ -167,9 +173,10 @@ volatile SMotor m1, m2;
 void setup() 
 {
   delay(200);
-  Serial.begin(115200);
-  //Serial.begin(9600);
+  //Serial.begin(115200);
+  Serial.begin(9600);
 
+  /*
   Serial.print("Search for PCF8574: ");
     // SEARCH FOR PCF8574
     for(int i = 0;i < 8;i++) {
@@ -179,6 +186,7 @@ void setup()
             Serial.println(address, HEX);
         }
     }
+  */
   
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
@@ -194,21 +202,9 @@ void setup()
   pinMode(controls, 6, OUTPUT);
   pinMode(controls, 7, OUTPUT);
 
-  //digitalWrite( controls, 5, 0);
-  //digitalWrite( controls, 7, 0);
-  controls.write(0x00);
-  delay(200);
-  //digitalWrite( controls, 5, 1);
-  //digitalWrite( controls, 7, 1);
   controls.write(0xFF);
-  delay(200);
-  //digitalWrite( controls, 5, 0);
-  //digitalWrite( controls, 7, 0);
-  controls.write(0x00);
-  delay(200);
-  //digitalWrite( controls, 5, 1);
-  //digitalWrite( controls, 7, 1);
-  controls.write(0xFF);
+
+  digitalWrite( controls, PCF_RG_GREEN, 0); // GREEN in R/G LED
 
 #if GR_DISPL
   u8g2.begin();
@@ -232,8 +228,17 @@ void loop()
 
   if( 0 == (n&0x1F) )
   {
-    digitalWrite( controls, 4, halfSec & 1);
-    digitalWrite( controls, 5, halfSec & 1);
+    if(failTime)
+      digitalWrite( controls, PCF_RG_RED, halfSec & 1);
+    else
+      digitalWrite( controls, PCF_RG_RED, 1);
+
+    if(!bothMotorsStop())
+      digitalWrite( controls, PCF_YELLOW, halfSec & 1);
+    else
+      digitalWrite( controls, PCF_YELLOW, 1);
+    
+    
 #if GR_DISPL
     // picture loop  
     u8g2.clearBuffer();
@@ -253,9 +258,11 @@ void loop()
   delay(1000/400);
 }
 
+int bothMotorsStop()
+{
+  return m1.isStop() && m2.isStop();
+}
 
-int failTime = 0;
-int failCount = 0;
 void timer_handle_interrupts(int timer) 
 {
   halfSec++;
@@ -281,7 +288,7 @@ void timer_handle_interrupts(int timer)
     }
 
     // Both calibrated after fault
-    if( m1.isStop() && m2.isStop() && (failCount > 0) )
+    if( bothMotorsStop() && (failCount > 0) )
     {
       failCount = 0;
       m1.resync();
