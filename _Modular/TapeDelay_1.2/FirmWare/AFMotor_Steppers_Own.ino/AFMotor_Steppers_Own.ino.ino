@@ -246,8 +246,10 @@ void timer_handle_interrupts(int timer)
 
 void draw()
 {
+#if GR_DISPL
 
   u8g2.drawStr( 2, 0, "Test");
+#endif  
 }
 
 
