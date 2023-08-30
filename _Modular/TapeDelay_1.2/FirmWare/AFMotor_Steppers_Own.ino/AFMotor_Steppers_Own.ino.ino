@@ -1,7 +1,8 @@
 #include "timer-api.h"
 
 // ST_CP of 74HC595 - CS0
-int latchPin = 11;
+//int latchPin = 11;
+#define latchPin 11
 // SH_CP of 74HC595 - SCK
 int clockPin = 13;
 // DS of 74HC595 - MOSI
@@ -93,21 +94,20 @@ class SMotor
 
   void onTimer() {
     mTime++;
-    /*if(done)
-      {
-        nextState();
-        return;
-      }*/
-    if( (m == FAILED) && (mTime > 10) )
-    {
-      setMode(CAL_UP);
-      return;
-    }
 
-    if( mTime > 5) 
+    if( mTime > 10) // 5 sec
       setMode(FAILED);    
   }
 
+  int isStop() { return m == STOP; }
+  int isFailed() { return m == FAILED; }
+  void recalibrate() { setMode(CAL_UP); } 
+
+  void resync()
+  {
+    if( position != target )
+      setMode(MOVE);
+  }
 
 };
 
@@ -120,58 +120,6 @@ volatile SMotor m1, m2;
 
 
 
-/*
-enum State { FAILED, STOP, CAL1UP, CAL1DOWN, CAL2UP, CAL2DOWN, TARGET1, TARGET2 };
-
-class Controller {
-  State s = FAILED;
-  int stateTime = 0; // seconds in this state
-  int done = 0; // if state task is finished ok
-  public:
-
-  void onTimer() {
-    if(done)
-      {
-        nextState();
-        return;
-      }
-    if( (s == FAILED) && (stateTime > 10) )
-    {
-      setState(CAL1UP);
-      return;
-    }
-
-    if( stateTime > 10) 
-      setState(FAILED);    
-  }
-
-  void setState(State newState)
-  {
-    done = 0;
-    stateTime = 0;
-    s = newState;
-  }
-
-  void nextState()
-  {
-    State ns = STOP;
-    switch(s)
-    {
-      case CAL1UP: ns = CAL1DOWN; break;
-      case CAL1DOWN: ns = CAL2UP; break;
-      case CAL2UP: ns = CAL2DOWN; break;
-      //case CAL1UP: ns = CAL1DOWN; break;
-
-      case FAILED: ns = FAILED;
-    }
-
-    setState(ns);
-  }
-
-  
-} c;
-
-*/
 
 
 
@@ -187,7 +135,7 @@ void setup()
   //m1.speed = -1;
   //m2.speed = 1;
 
-  timer_init_ISR_1Hz(TIMER_DEFAULT);
+  timer_init_ISR_2Hz(TIMER_DEFAULT);
 }
 
 int n = 0;
@@ -207,7 +155,37 @@ void loop()
 }
 
 
-void timer_handle_interrupts(int timer) {
+int failTime = 0;
+int failCount = 0;
+void timer_handle_interrupts(int timer) 
+{
+    if( (failTime == 0) && (m1.isFailed() || m2.isFailed()) )
+    {
+      failTime = 1;
+      failCount++;
+    }
+    
+    if( failTime > 0 )
+    {
+      failTime++;
+      if( failTime > 40 ) // 20 sec - prevent overheat
+      {
+        failTime = 0;
+        // allways recalibrate both
+        m1.recalibrate();
+        m2.recalibrate();
+      }
+    }
+
+    // Both calibrated after fault
+    if( m1.isStop() && m2.isStop() && (failCount > 0) )
+    {
+      failCount = 0;
+      m1.resync();
+      m2.resync();
+    }
+
+  
     m1.onTimer();
     m2.onTimer();
 }
