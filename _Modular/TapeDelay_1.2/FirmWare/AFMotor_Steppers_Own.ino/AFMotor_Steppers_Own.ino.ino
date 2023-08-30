@@ -4,13 +4,14 @@
 #include <timer-api.h>
 #include <Wire.h>
 #include <pcf8574.h>
+#include <Encoder.h>
 
 #if GR_DISPL
 #  include <U8g2lib.h>
 #endif
 
 // --------------------------------------------------
-// Defies
+// Defines
 // --------------------------------------------------
 
 
@@ -28,13 +29,15 @@
 #define PCF_YELLOW 6
 #define PCF_GREEN 7
 
-#define S1 10
-#define S2 9
+#define S2 10
+#define S1 9
 
-#define SENSOR_ON(v) (v != 0)
-#define SENSOR_OFF(v) (v == 0)
+#define SOLENOID 8
 
-// 3 sec
+#define SENSOR_ON(v) (v == 0)
+#define SENSOR_OFF(v) (!SENSOR_ON(v))
+
+// 2 sec
 #define FAIL_DETECT_TIME 6 
 
 // 60 sec - prevent overheat
@@ -44,6 +47,12 @@
 #define KEY_0(v) (0 != (v & 2))
 
 // --------------------------------------------------
+// Func Decls
+// --------------------------------------------------
+
+void setSolenoid( int on );
+
+// --------------------------------------------------
 // Globals
 // --------------------------------------------------
 
@@ -51,6 +60,7 @@ int halfSec = 0;
 int failTime = 0;
 int failCount = 0;
 
+Encoder encoder(2, 3);
 
 PCF8574 controls(0x20);
 
@@ -60,16 +70,63 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 
 
+// --------------------------------------------------
+// Debouncer
+// --------------------------------------------------
 
+class Debouncer
+{
+  unsigned char history = 0;
+  unsigned char prev = 0;
 
+  public:
+
+  int inline get()
+  {
+    return ( v & 0b1111 ) == 0b1111;
+  }
+
+  int process( int v )
+  {
+    history <<= 1;
+    history |= v ? 1 : 0;
+
+    return get();
+  }
+
+  void printChanged(char *caption)
+  {
+    int v = get();
+    if( prev != v )
+    {
+      prev = v;
+      Serial.print(caption);
+      Serial.print(v);
+      Serial.print("\n");
+    }
+
+  }
+};
+
+Debouncer s1d, s2d;
+
+// --------------------------------------------------
+// Motor controller
+// --------------------------------------------------
 
 
 int stateTable[] = 
 {
+/*  
   0b0101,
   0b0110,
   0b1010,
   0b1001,
+*/  
+  0b1001,
+  0b1010,
+  0b0110,
+  0b0101,
 };
 
 enum MMode { FAILED, STOP, CAL_UP, CAL_DOWN, MOVE };
@@ -103,6 +160,7 @@ class SMotor
 
     if( (m == CAL_UP) && SENSOR_OFF(sensor) )
     {
+      setSolenoid(1); // Provide for capstan to pull excess tape
       setMode(CAL_DOWN);
       return;
     }
@@ -123,10 +181,8 @@ class SMotor
 
   void setMode(MMode newMode)
   {
-    //done = 0;
     mTime = 0;
     m = newMode;
-
     speed = 0;
     switch(m)
     {
@@ -142,7 +198,11 @@ class SMotor
 
 
 
-  void onTimer() {
+  void onTimer() 
+  {
+    // off for debug
+    //if(isStop()) return;
+    
     mTime++;
 
     if( mTime > FAIL_DETECT_TIME)
@@ -172,6 +232,9 @@ class SMotor
 volatile SMotor m1, m2;
 
 
+// --------------------------------------------------
+// Main entry points
+// --------------------------------------------------
 
 
 
@@ -206,6 +269,9 @@ void setup()
   pinMode(S1, INPUT);
   pinMode(S2, INPUT);
 
+  setSolenoid(0); // Make sure it is off
+  pinMode(SOLENOID, OUTPUT );
+
   Wire.begin();
 
   pinMode(controls, 4, OUTPUT);
@@ -230,8 +296,13 @@ void setup()
   timer_init_ISR_2Hz(TIMER_DEFAULT);
 }
 
+
+
+
 int n = 0;
 int oldKeys = 0;
+int oldEv = 0;
+//int oldS1 = 0;
 void loop() 
 {
   n++;
@@ -256,6 +327,15 @@ void loop()
       digitalWrite( controls, PCF_YELLOW, halfSec & 1);
     else
       digitalWrite( controls, PCF_YELLOW, 1);
+
+    int ev = encoder.read();
+    if(ev != oldEv)
+    {
+      oldEv = ev;
+      Serial.print("enc = ");
+      Serial.print(ev);
+      Serial.print("\n");
+    }
     
     
 #if GR_DISPL
@@ -264,6 +344,18 @@ void loop()
     draw();
     u8g2.sendBuffer();
 #endif
+  }
+
+  int s1 = s1d.process( digitalRead(S1) );
+  s1d.
+
+  int s1 = digitalRead(S1);
+  if( s1 != oldS1 )
+  {
+    oldS1 = s1;
+      Serial.print("S1 = ");
+      Serial.print(s1);
+      Serial.print("\n");
   }
   
   m1.step(  digitalRead(S1) );
@@ -277,10 +369,36 @@ void loop()
   delay(1000/400);
 }
 
+// --------------------------------------------------
+// Global state getters
+// --------------------------------------------------
+
+int isFailed()
+{
+  return failTime != 0;
+}
+
+int isCalibrating()
+{
+  return m1.isCalibrating() && m2.isCalibrating();
+}
+
+
+int bothMotorsStop()
+{
+  return m1.isStop() && m2.isStop();
+}
+
+
+// --------------------------------------------------
+// ETC
+// --------------------------------------------------
+
+
 // Unload
 void key0press()
 {
-  if(failTime)
+  if(isFailed())
   {
     startRecalibration();
     return;
@@ -295,21 +413,16 @@ void key1press()
     m1.stop();
     m2.stop();
     failTime = 1;
+    setSolenoid(0);
+    return;
   }
+
+  if(isFailed())
+    return;
   
 }
 
 
-int isCalibrating()
-{
-  return m1.isCalibrating() && m2.isCalibrating();
-}
-
-
-int bothMotorsStop()
-{
-  return m1.isStop() && m2.isStop();
-}
 
 void timer_handle_interrupts(int timer) 
 {
@@ -333,6 +446,7 @@ void timer_handle_interrupts(int timer)
     // Both calibrated after fault
     if( bothMotorsStop() && (failCount > 0) )
     {
+      setSolenoid(0); // Calibration process turned it on
       failCount = 0;
       m1.resync();
       m2.resync();
@@ -361,6 +475,9 @@ void draw()
 #endif  
 }
 
+// --------------------------------------------------
+// Output 
+// --------------------------------------------------
 
 
 void sendStepperState()
@@ -380,4 +497,10 @@ void sendStepperState(int state)
   //take the latch pin high so the LEDs will light up:
   digitalWrite(latchPin, HIGH);
 
+}
+
+void setSolenoid( int on )
+{
+  //digitalWrite( SOLENOID, on); 
+  digitalWrite( SOLENOID, 0); 
 }
