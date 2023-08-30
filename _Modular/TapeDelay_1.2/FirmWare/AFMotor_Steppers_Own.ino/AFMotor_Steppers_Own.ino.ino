@@ -40,6 +40,9 @@
 // 60 sec - prevent overheat
 #define FAIL_RETRY_TIME 120
 
+#define KEY_1(v) (0 != (v & 1))
+#define KEY_0(v) (0 != (v & 2))
+
 // --------------------------------------------------
 // Globals
 // --------------------------------------------------
@@ -148,7 +151,15 @@ class SMotor
 
   int isStop() { return m == STOP; }
   int isFailed() { return m == FAILED; }
+  int isCalibrating() { return (m == CAL_UP) || (m == CAL_DOWN); }
+  
   void recalibrate() { setMode(CAL_UP); } 
+
+  void stop()
+  {
+    if(isCalibrating())   setMode(FAILED);
+    else                  setMode(STOP);
+  }
 
   void resync()
   {
@@ -220,11 +231,19 @@ void setup()
 }
 
 int n = 0;
+int oldKeys = 0;
 void loop() 
 {
   n++;
 
+  int keys = ~controls.read();
+  int tmp = keys;
+
+  keys &= ~oldKeys;
+  oldKeys = tmp;
   
+  if(KEY_0(keys)) key0press();
+  if(KEY_1(keys)) key1press();
 
   if( 0 == (n&0x1F) )
   {
@@ -258,6 +277,35 @@ void loop()
   delay(1000/400);
 }
 
+// Unload
+void key0press()
+{
+  if(failTime)
+  {
+    startRecalibration();
+    return;
+  }
+}
+
+// Stop/Play
+void key1press()
+{
+  if(isCalibrating())
+  {
+    m1.stop();
+    m2.stop();
+    failTime = 1;
+  }
+  
+}
+
+
+int isCalibrating()
+{
+  return m1.isCalibrating() && m2.isCalibrating();
+}
+
+
 int bothMotorsStop()
 {
   return m1.isStop() && m2.isStop();
@@ -279,12 +327,7 @@ void timer_handle_interrupts(int timer)
     {
       failTime++;
       if( failTime > FAIL_RETRY_TIME ) 
-      {
-        failTime = 0;
-        // allways recalibrate both
-        m1.recalibrate();
-        m2.recalibrate();
-      }
+        startRecalibration();
     }
 
     // Both calibrated after fault
@@ -301,7 +344,13 @@ void timer_handle_interrupts(int timer)
 }
 
 
-
+void startRecalibration()
+{
+  failTime = 0;
+  // allways recalibrate both
+  m1.recalibrate();
+  m2.recalibrate();
+}
 
 
 void draw()
