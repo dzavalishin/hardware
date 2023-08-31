@@ -50,7 +50,7 @@
 // Func Decls
 // --------------------------------------------------
 
-void setSolenoid( int on );
+//void setSolenoid( int on );
 
 // --------------------------------------------------
 // Globals
@@ -170,7 +170,7 @@ class SMotor
 
     if( (m == CAL_UP) && SENSOR_OFF(sensor) )
     {
-      setSolenoid(1); // Provide for capstan to pull excess tape
+      //setSolenoid(1); // Provide for capstan to pull excess tape
       //gc.motorRequestSolenoid(1);
       setMode(CAL_DOWN);
       return;
@@ -231,6 +231,8 @@ class SMotor
   int isStop() { return m == STOP; }
   int isFailed() { return m == FAILED; }
   int isCalibrating() { return (m == CAL_UP) || (m == CAL_DOWN); }
+
+  int isNeedSolenoid() { return speed < 0; }
   
   void recalibrate() { setMode(CAL_UP); } 
 
@@ -271,11 +273,11 @@ class GControl
   GMode m = UNLOAD;
 
   int target = 0;
-  int mrs = 0;
+  //int mrs = 0;
   
 public:
-  int isRun() { m == RUN; }
-  int isLoad() { m != UNLOAD; }
+  int isRun() { return m == RUN; }
+  int isLoad() { return m != UNLOAD; }
 
   void toggleStopOrRun()
   {
@@ -291,6 +293,8 @@ public:
 
   void run()
   {
+    if(!m1.isStop()) return;
+    if(!m2.isStop()) return;
     if(m == PAUSE) m = RUN;
   }
 
@@ -326,10 +330,15 @@ public:
   }
 
   // if step motor pulls back, tape must be moving to pull excess amount
-  void motorRequestSolenoid(int s) { mrs = s; }
+  //void motorRequestSolenoid(int s) { mrs = s; }
+
+  int motorsNeedSolenoid()
+  {
+    return m1.isNeedSolenoid() || m2.isNeedSolenoid();
+  }
 
   void updateSolenoid(void) {
-    digitalWrite( SOLENOID, mrs || isRun() ); 
+    digitalWrite( SOLENOID, motorsNeedSolenoid() || isRun() ); 
     // Debug
     //digitalWrite( SOLENOID, 0); 
 
@@ -473,8 +482,6 @@ void loop()
   }
   
   gc.setTarget(pos);
-  //m1.setTarget(pos);
-  //m2.setTarget(pos);
 
   int s1 = s1d.process( digitalRead(S1) );
   //s1d.printChanged("S1 = ");
@@ -486,6 +493,8 @@ void loop()
   m2.step( s2 );
 
   sendStepperState();
+
+  gc.updateSolenoid();
   
   // pause before next value: 200 pulses per sec
   //delay(400);
@@ -546,7 +555,7 @@ void key1press()
     m2.stop();
     failTime = 1;
     //setSolenoid(0);
-    gc.motorRequestSolenoid(0);
+    //gc.motorRequestSolenoid(0);
     return;
   }
 
@@ -581,7 +590,7 @@ void timer_handle_interrupts(int timer)
   // Both calibrated after fault
   if( bothMotorsStop() && (failCount > 0) )
   {
-    gc.motorRequestSolenoid(0); // Calibration process turned it on
+    //gc.motorRequestSolenoid(0); // Calibration process turned it on
     failCount = 0;
     m1.resync();
     m2.resync();
@@ -638,7 +647,7 @@ void sendStepperState(int state)
 
 }
 
-
+/*
 void setSolenoid( int on )
 {
   gc.motorRequestSolenoid(0);
@@ -646,3 +655,4 @@ void setSolenoid( int on )
   // Debug
   //digitalWrite( SOLENOID, 0); 
 }
+*/
