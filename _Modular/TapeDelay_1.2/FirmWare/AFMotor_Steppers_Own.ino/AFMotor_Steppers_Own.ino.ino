@@ -74,7 +74,7 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 // Debouncer
 // --------------------------------------------------
 
-#define DEB_MASK 0b01111
+#define DEB_MASK 0b0111
 
 class Debouncer
 {
@@ -120,6 +120,7 @@ Debouncer s1d, s2d;
 // Motor controller
 // --------------------------------------------------
 
+#define MAX_TARGET 100
 
 int stateTable[] = 
 {
@@ -143,7 +144,7 @@ class SMotor
   int position = 0;
   int target = 0;
 
-  MMode m = CAL_UP;
+  MMode m = FAILED;
   int mTime = 0; // seconds in this mode
   
   int state = 0; // 0...3
@@ -195,8 +196,16 @@ class SMotor
       case CAL_UP: speed = 1; break;
       case CAL_DOWN: speed = -1; break;
       case MOVE:
+        if(target == position)
+        {
+          stop();
+          break;
+        }
+        else
+        {
         if( target > position ) speed = 1;
         else speed = -1;
+        }
         break;      
     }
   }
@@ -207,7 +216,7 @@ class SMotor
   void onTimer() 
   {
     // off for debug
-    //if(isStop()) return;
+    if(isStop()) return;
     
     mTime++;
 
@@ -231,6 +240,15 @@ class SMotor
   {
     if( position != target )
       setMode(MOVE);
+  }
+
+  void setTarget(int t)
+  {
+    if( (t >=0) && (t < MAX_TARGET) )    
+      target = -t; // Oh my, so silly
+
+    if(isStop())
+      resync();
   }
 
 };
@@ -300,6 +318,8 @@ void setup()
 #endif  
 
   timer_init_ISR_2Hz(TIMER_DEFAULT);
+
+  startRecalibration();
 }
 
 
@@ -307,8 +327,8 @@ void setup()
 
 int n = 0;
 int oldKeys = 0;
+int oldBoth = 0;
 int oldEv = 0;
-//int oldS1 = 0;
 void loop() 
 {
   n++;
@@ -316,11 +336,21 @@ void loop()
   int keys = ~controls.read();
   int tmp = keys;
 
-  keys &= ~oldKeys;
+  int filteredKeys = keys & ~oldKeys;
   oldKeys = tmp;
-  
-  if(KEY_0(keys)) key0press();
-  if(KEY_1(keys)) key1press();
+
+  if( KEY_0(keys) && KEY_1(keys))
+  {
+    if(0 == oldBoth)
+      bothKeysPress();
+    oldBoth = 1;
+  }
+  else
+  {
+    oldBoth = 0;
+    if(KEY_0(filteredKeys)) key0press();
+    if(KEY_1(filteredKeys)) key1press();
+  }
 
   if( 0 == (n&0x1F) )
   {
@@ -333,16 +363,6 @@ void loop()
       digitalWrite( controls, PCF_YELLOW, halfSec & 1);
     else
       digitalWrite( controls, PCF_YELLOW, 1);
-
-    int ev = encoder.read();
-    if(ev != oldEv)
-    {
-      oldEv = ev;
-      Serial.print("enc = ");
-      Serial.print(ev);
-      Serial.print("\n");
-    }
-    
     
 #if GR_DISPL
     // picture loop  
@@ -351,6 +371,22 @@ void loop()
     u8g2.sendBuffer();
 #endif
   }
+
+  int pos = encoder.read();
+  if(pos < 0) encoder.write(0);
+  if(pos > MAX_TARGET) encoder.write(MAX_TARGET);
+  pos = encoder.read();
+
+  if(pos != oldEv)
+  {
+    oldEv = pos;
+    Serial.print("enc = ");
+    Serial.print(pos);
+    Serial.print("\n");
+  }
+  
+  m1.setTarget(pos*10);
+  m2.setTarget(pos*10);
 
   int s1 = s1d.process( digitalRead(S1) );
   s1d.printChanged("S1 = ");
@@ -391,9 +427,13 @@ int bothMotorsStop()
 
 
 // --------------------------------------------------
-// ETC
+// Keys handling
 // --------------------------------------------------
 
+void bothKeysPress()
+{
+  startRecalibration();
+}
 
 // Unload
 void key0press()
@@ -422,40 +462,45 @@ void key1press()
   
 }
 
+// --------------------------------------------------
+// Timer interrupt
+// --------------------------------------------------
 
 
 void timer_handle_interrupts(int timer) 
 {
   halfSec++;
   
-  //digitalWrite( controls, 5, halfSec & 1);
-  
-    if( (failTime == 0) && (m1.isFailed() || m2.isFailed()) )
-    {
-      failTime = 1;
-      failCount++;
-    }
+  if( (failTime == 0) && (m1.isFailed() || m2.isFailed()) )
+  {
+    failTime = 1;
+    failCount++;
+  }
     
-    if( failTime > 0 )
-    {
-      failTime++;
-      if( failTime > FAIL_RETRY_TIME ) 
-        startRecalibration();
-    }
+  if( failTime > 0 )
+  {
+    failTime++;
+    if( failTime > FAIL_RETRY_TIME ) 
+      startRecalibration();
+  }
 
-    // Both calibrated after fault
-    if( bothMotorsStop() && (failCount > 0) )
-    {
-      setSolenoid(0); // Calibration process turned it on
-      failCount = 0;
-      m1.resync();
-      m2.resync();
-    }
+  // Both calibrated after fault
+  if( bothMotorsStop() && (failCount > 0) )
+  {
+    setSolenoid(0); // Calibration process turned it on
+    failCount = 0;
+    m1.resync();
+    m2.resync();
+  }
 
-  
-    m1.onTimer();
-    m2.onTimer();
+
+  m1.onTimer();
+  m2.onTimer();
 }
+
+// --------------------------------------------------
+// ETC
+// --------------------------------------------------
 
 
 void startRecalibration()
