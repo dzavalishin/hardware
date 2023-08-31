@@ -285,7 +285,7 @@ public:
 
   void stop()
   {
-    if(m == RUN) m == STOP;
+    if(m == RUN) m = PAUSE;
     else load();
   }
 
@@ -296,18 +296,33 @@ public:
 
   void load()
   {
-    if((m == STOP) || (m == RUN)) return;
+    if((m == PAUSE) || (m == RUN)) return;
 
     m = PAUSE;
-    m1.setTarget(target);
-    m2.setTarget(target);
+    updateMotors();
   }
 
   void unload()
   {
-    if(m == UNLOAD) return;
-    m1.setTarget(0);
-    m2.setTarget(0);
+    m = UNLOAD;
+    updateMotors();
+  }
+
+  void setTarget(int pos) { 
+    target = pos; 
+    updateMotors();
+    }
+
+  void updateMotors()
+  {
+    if(m == UNLOAD) {
+      m1.setTarget(0);
+      m2.setTarget(0);
+      return;
+    }
+    
+    m1.setTarget(target + ZERO_TARGET);
+    m2.setTarget(target + ZERO_TARGET);
   }
 
   // if step motor pulls back, tape must be moving to pull excess amount
@@ -406,10 +421,8 @@ void loop()
   n++;
 
   int keys = ~controls.read();
-  int tmp = keys;
-
   int filteredKeys = keys & ~oldKeys;
-  oldKeys = tmp;
+  oldKeys = keys;
 
   if( KEY_0(keys) && KEY_1(keys))
   {
@@ -429,7 +442,7 @@ void loop()
     if(failTime)
       digitalWrite( controls, PCF_RG_RED, halfSec & 1);
     else
-      digitalWrite( controls, PCF_RG_RED, 1);
+      digitalWrite( controls, PCF_RG_RED, gc.isLoad());
 
     if(!bothMotorsStop())
       digitalWrite( controls, PCF_YELLOW, halfSec & 1);
@@ -460,14 +473,14 @@ void loop()
   }
   
   gc.setTarget(pos);
-  m1.setTarget(pos);
-  m2.setTarget(pos);
+  //m1.setTarget(pos);
+  //m2.setTarget(pos);
 
   int s1 = s1d.process( digitalRead(S1) );
-  s1d.printChanged("S1 = ");
+  //s1d.printChanged("S1 = ");
 
   int s2 = s2d.process( digitalRead(S2) );
-  s2d.printChanged("S2 = ");
+  //s2d.printChanged("S2 = ");
   
   m1.step( s1 );
   m2.step( s2 );
@@ -513,6 +526,7 @@ void bothKeysPress()
 // Unload
 void key0press()
 {
+  Serial.println("unload key");
   if(isFailed())
   {
     startRecalibration();
@@ -525,6 +539,7 @@ void key0press()
 // Stop/Play
 void key1press()
 {
+  Serial.println("stop/play key");
   if(isCalibrating())
   {
     m1.stop();
