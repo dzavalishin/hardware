@@ -116,11 +116,14 @@ class Debouncer
 
 Debouncer s1d, s2d;
 
+
 // --------------------------------------------------
 // Motor controller
 // --------------------------------------------------
 
-#define MAX_TARGET 100
+#define MAX_TARGET 1500
+// Minimal position for moving tape
+#define ZERO_TARGET 100
 
 int stateTable[] = 
 {
@@ -168,6 +171,7 @@ class SMotor
     if( (m == CAL_UP) && SENSOR_OFF(sensor) )
     {
       setSolenoid(1); // Provide for capstan to pull excess tape
+      //gc.motorRequestSolenoid(1);
       setMode(CAL_DOWN);
       return;
     }
@@ -245,7 +249,7 @@ class SMotor
   void setTarget(int t)
   {
     if( (t >=0) && (t < MAX_TARGET) )    
-      target = -t; // Oh my, so silly
+      target = t; 
 
     if(isStop())
       resync();
@@ -255,6 +259,71 @@ class SMotor
 
 volatile SMotor m1, m2;
 
+
+// --------------------------------------------------
+// General controller
+// --------------------------------------------------
+
+enum GMode { UNLOAD, PAUSE, RUN };
+
+class GControl
+{
+  GMode m = UNLOAD;
+
+  int target = 0;
+  int mrs = 0;
+  
+public:
+  int isRun() { m == RUN; }
+  int isLoad() { m != UNLOAD; }
+
+  void toggleStopOrRun()
+  {
+    if(m == PAUSE) run();
+    else stop();
+  }
+
+  void stop()
+  {
+    if(m == RUN) m == STOP;
+    else load();
+  }
+
+  void run()
+  {
+    if(m == PAUSE) m = RUN;
+  }
+
+  void load()
+  {
+    if((m == STOP) || (m == RUN)) return;
+
+    m = PAUSE;
+    m1.setTarget(target);
+    m2.setTarget(target);
+  }
+
+  void unload()
+  {
+    if(m == UNLOAD) return;
+    m1.setTarget(0);
+    m2.setTarget(0);
+  }
+
+  // if step motor pulls back, tape must be moving to pull excess amount
+  void motorRequestSolenoid(int s) { mrs = s; }
+
+  void updateSolenoid(void) {
+    digitalWrite( SOLENOID, mrs || isRun() ); 
+    // Debug
+    //digitalWrite( SOLENOID, 0); 
+
+  }
+
+  //int getSolenoidState() { return isRun(); }
+};
+
+GControl gc;
 
 // --------------------------------------------------
 // Main entry points
@@ -293,7 +362,10 @@ void setup()
   pinMode(S1, INPUT);
   pinMode(S2, INPUT);
 
-  setSolenoid(0); // Make sure it is off
+  // Make sure it is off
+  //setSolenoid(0); 
+  //gc.motorRequestSolenoid(0);
+  gc.updateSolenoid();
   pinMode(SOLENOID, OUTPUT );
 
   Wire.begin();
@@ -363,6 +435,8 @@ void loop()
       digitalWrite( controls, PCF_YELLOW, halfSec & 1);
     else
       digitalWrite( controls, PCF_YELLOW, 1);
+
+    digitalWrite( controls, PCF_GREEN, !gc.isRun());
     
 #if GR_DISPL
     // picture loop  
@@ -385,8 +459,9 @@ void loop()
     Serial.print("\n");
   }
   
-  m1.setTarget(pos*10);
-  m2.setTarget(pos*10);
+  gc.setTarget(pos);
+  m1.setTarget(pos);
+  m2.setTarget(pos);
 
   int s1 = s1d.process( digitalRead(S1) );
   s1d.printChanged("S1 = ");
@@ -443,6 +518,8 @@ void key0press()
     startRecalibration();
     return;
   }
+  
+  gc.unload();
 }
 
 // Stop/Play
@@ -453,13 +530,15 @@ void key1press()
     m1.stop();
     m2.stop();
     failTime = 1;
-    setSolenoid(0);
+    //setSolenoid(0);
+    gc.motorRequestSolenoid(0);
     return;
   }
 
   if(isFailed())
     return;
-  
+
+  gc.toggleStopOrRun();
 }
 
 // --------------------------------------------------
@@ -487,7 +566,7 @@ void timer_handle_interrupts(int timer)
   // Both calibrated after fault
   if( bothMotorsStop() && (failCount > 0) )
   {
-    setSolenoid(0); // Calibration process turned it on
+    gc.motorRequestSolenoid(0); // Calibration process turned it on
     failCount = 0;
     m1.resync();
     m2.resync();
@@ -544,9 +623,11 @@ void sendStepperState(int state)
 
 }
 
+
 void setSolenoid( int on )
 {
+  gc.motorRequestSolenoid(0);
   //digitalWrite( SOLENOID, on); 
   // Debug
-  digitalWrite( SOLENOID, 0); 
+  //digitalWrite( SOLENOID, 0); 
 }
