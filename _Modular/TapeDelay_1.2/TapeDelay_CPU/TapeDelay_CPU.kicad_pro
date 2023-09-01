@@ -333,7 +333,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "TapeDelay_Controls.kicad_pro",
+    "filename": "TapeDelay_CPU.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -365,7 +365,7 @@
     "last_paths": {
       "gencad": "",
       "idf": "",
-      "netlist": "./",
+      "netlist": "",
       "specctra_dsn": "",
       "step": "",
       "vrml": ""
@@ -412,7 +412,7 @@
   },
   "sheets": [
     [
-      "1ff614e4-af63-45a7-96cc-99bfa92f5c08",
+      "a24f9e83-94da-406e-86de-22fed7f1a922",
       ""
     ]
   ],

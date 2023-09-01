@@ -43,8 +43,10 @@
 // 60 sec - prevent overheat
 #define FAIL_RETRY_TIME 120
 
-#define KEY_1(v) (0 != (v & 1))
-#define KEY_0(v) (0 != (v & 2))
+#define KEY_0(v) (0 != (v & 1))
+#define KEY_1(v) (0 != (v & 2))
+#define KEY_2(v) (0 != (v & 4))
+#define KEY_3(v) (0 != (v & 8))
 
 // --------------------------------------------------
 // Func Decls
@@ -215,8 +217,6 @@ class SMotor
   }
 
 
-
-
   void onTimer() 
   {
     // off for debug
@@ -277,6 +277,7 @@ class GControl
   
 public:
   int isRun() { return m == RUN; }
+  int isStop() { return m == STOP; }
   int isLoad() { return m != UNLOAD; }
 
   void toggleStopOrRun()
@@ -296,6 +297,12 @@ public:
     if(!m1.isStop()) return;
     if(!m2.isStop()) return;
     if(m == PAUSE) m = RUN;
+  }
+
+  void toggleLoadOrUnload()
+  {
+    if(m == UNLOAD) load();
+    else unload();
   }
 
   void load()
@@ -352,13 +359,6 @@ GControl gc;
 // --------------------------------------------------
 // Main entry points
 // --------------------------------------------------
-
-
-
-
-
-
-
 
 
 void setup() 
@@ -444,6 +444,8 @@ void loop()
     oldBoth = 0;
     if(KEY_0(filteredKeys)) key0press();
     if(KEY_1(filteredKeys)) key1press();
+    if(KEY_2(filteredKeys)) enterKeyPress();
+    if(KEY_3(filteredKeys)) escKeyPress();
   }
 
   if( 0 == (n&0x1F) )
@@ -456,7 +458,7 @@ void loop()
     if(!bothMotorsStop())
       digitalWrite( controls, PCF_YELLOW, halfSec & 1);
     else
-      digitalWrite( controls, PCF_YELLOW, 1);
+      digitalWrite( controls, PCF_YELLOW, !gc.isStop());
 
     digitalWrite( controls, PCF_GREEN, !gc.isRun());
     
@@ -542,7 +544,8 @@ void key0press()
     return;
   }
   
-  gc.unload();
+  //gc.unload();
+  gc.toggleLoadOrUnload();
 }
 
 // Stop/Play
@@ -564,6 +567,19 @@ void key1press()
 
   gc.toggleStopOrRun();
 }
+
+void enterKeyPress()
+{
+  Serial.println("Enter key");
+  
+}
+
+void escKeyPress()
+{
+  Serial.println("ESC key");
+  encoder.write(0);
+}
+
 
 // --------------------------------------------------
 // Timer interrupt
