@@ -123,9 +123,9 @@ Debouncer s1d, s2d;
 // Motor controller
 // --------------------------------------------------
 
-#define MAX_TARGET 1500
+#define MAX_TARGET 300
 // Minimal position for moving tape
-#define ZERO_TARGET 100
+#define ZERO_TARGET 55
 
 int stateTable[] = 
 {
@@ -155,7 +155,45 @@ class SMotor
   int state = 0; // 0...3
   int speed = 0; //-1 - 0 - 1
 
+  int uncalibCount = 0;
+
+  int isUncalibrated(int sensor) 
+  {
+    if(isCalibrating()) return 0;
+    
+    if(SENSOR_OFF(sensor) && ( position <= 0 )) return 1;
+    if(SENSOR_ON(sensor) && ( position > 0 )) return 1;
+
+    return 0;
+  }
+
+  // return true and request resync if out of sync
+  int verify(int sensor) 
+  {
+    if(!isUncalibrated(sensor)) 
+      {
+        uncalibCount = 0;
+        return 0;
+      }
+
+    uncalibCount++;
+
+    if( uncalibCount < 4 )
+      return 0;
+      
+    Serial.println("uncal");
+
+    return 0; // temp off
+    //startRecalibration(); 
+    //return 1;
+  }
+
   public:
+
+  int isStop() { return m == STOP; }
+  int isFailed() { return m == FAILED; }
+  int isCalibrating() { return (m == CAL_UP) || (m == CAL_DOWN); }
+  int isNeedSolenoid() { return speed < 0; }
 
   int getState()
   {
@@ -167,9 +205,8 @@ class SMotor
 
   void step(int sensor)
   {
-    state += speed;
-    position += speed;
-
+    if( verify(sensor) ) return;
+    
     if( (m == CAL_UP) && SENSOR_OFF(sensor) )
     {
       //setSolenoid(1); // Provide for capstan to pull excess tape
@@ -184,6 +221,9 @@ class SMotor
       position = 0;
       return;
     }
+
+    state += speed;
+    position += speed;
 
     if( (m == MOVE) && (position == target) )
     {
@@ -228,11 +268,9 @@ class SMotor
       setMode(FAILED);    
   }
 
-  int isStop() { return m == STOP; }
-  int isFailed() { return m == FAILED; }
-  int isCalibrating() { return (m == CAL_UP) || (m == CAL_DOWN); }
 
-  int isNeedSolenoid() { return speed < 0; }
+
+
   
   void recalibrate() { setMode(CAL_UP); } 
 
@@ -244,13 +282,14 @@ class SMotor
 
   void resync()
   {
+    
     if( position != target )
       setMode(MOVE);
   }
 
   void setTarget(int t)
   {
-    if( (t >=0) && (t < MAX_TARGET) )    
+    if( (t >=0) && (t < MAX_TARGET+ZERO_TARGET) )    
       target = t; 
 
     if(isStop())
@@ -501,7 +540,8 @@ void loop()
   // pause before next value: 200 pulses per sec
   //delay(400);
   //delay(1000/200);
-  delay(1000/400);
+  //delay(1000/400);
+  delay(1000/600);
 }
 
 // --------------------------------------------------
