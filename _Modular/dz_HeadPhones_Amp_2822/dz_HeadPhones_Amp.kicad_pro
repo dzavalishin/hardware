@@ -48,8 +48,22 @@
           "min_clearance": 0.508
         }
       },
-      "diff_pair_dimensions": [],
-      "drc_exclusions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
+      "drc_exclusions": [
+        "silk_over_copper|269095000|58670000|904aefad-9bf2-43ac-9cdc-6915c8716d6a|04c29720-0b15-45f0-81ab-a46cebb90682",
+        "silk_over_copper|269095000|68410000|904aefad-9bf2-43ac-9cdc-6915c8716d6a|d7a169c6-364f-4bbd-9cf2-61884c37d249",
+        "silk_over_copper|269215000|58670000|3e92cf08-7ab9-48ae-97db-7f40baff430e|04c29720-0b15-45f0-81ab-a46cebb90682",
+        "silk_over_copper|269215000|58670000|3e92cf08-7ab9-48ae-97db-7f40baff430e|75027f97-4623-461f-b4c8-22105360cfd9",
+        "silk_over_copper|269215000|68410000|3e92cf08-7ab9-48ae-97db-7f40baff430e|d7a169c6-364f-4bbd-9cf2-61884c37d249",
+        "silk_over_copper|269240000|59920000|3e92cf08-7ab9-48ae-97db-7f40baff430e|2f6f1528-2884-4267-81c4-7d159fa27348",
+        "silk_over_copper|269240000|67160000|3e92cf08-7ab9-48ae-97db-7f40baff430e|985de53d-c9af-4f18-9263-b2f73e9fe064"
+      ],
       "meta": {
         "version": 2
       },
@@ -112,8 +126,17 @@
         "solder_mask_min_width": 0.0,
         "use_height_for_length_calcs": true
       },
-      "track_widths": [],
-      "via_dimensions": [],
+      "track_widths": [
+        0.0,
+        1.0,
+        2.0
+      ],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
     },
@@ -333,7 +356,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "dz_Dist_Tube_power.kicad_pro",
+    "filename": "dz_HeadPhones_Amp.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -412,7 +435,7 @@
   },
   "sheets": [
     [
-      "039b544e-3b32-4259-a46f-4907abf11d6f",
+      "183ae091-0ba9-4e79-aa16-65180b21fe0e",
       ""
     ]
   ],

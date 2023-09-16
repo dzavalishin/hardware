@@ -1,4 +1,5 @@
-#define GR_DISPL 0
+#define GR_DISPL 1
+#define SERVO_CTL 0
 
 
 #include <timer-api.h>
@@ -8,6 +9,11 @@
 
 #if GR_DISPL
 #  include <U8g2lib.h>
+#endif
+
+#if SERVO_CTL
+//#  include <Servo.h>
+#  include <Servo_Hardware_PWM.h>
 #endif
 
 // --------------------------------------------------
@@ -67,9 +73,13 @@ Encoder encoder(2, 3);
 PCF8574 controls(0x20);
 
 #if GR_DISPL
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+//U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 #endif
 
+#if SERVO_CTL
+Servo capstan;
+#endif
 
 
 // --------------------------------------------------
@@ -201,6 +211,8 @@ class SMotor
       return 0; // power off
     return stateTable[state & 0x3];
   }
+
+  int getPosition() { return position; } 
 
 
   void step(int sensor)
@@ -405,7 +417,8 @@ void setup()
   delay(200);
   //Serial.begin(115200);
   Serial.begin(9600);
-
+  Serial.println("restart");
+  
   /*
   Serial.print("Search for PCF8574: ");
     // SEARCH FOR PCF8574
@@ -453,6 +466,12 @@ void setup()
 #endif  
 
   timer_init_ISR_2Hz(TIMER_DEFAULT);
+
+#if SERVO_CTL
+  capstan.attach(7, 0, 255, 127);
+  capstan.write(200);
+#endif
+
 
   startRecalibration();
 }
@@ -671,13 +690,6 @@ void startRecalibration()
 }
 
 
-void draw()
-{
-#if GR_DISPL
-
-  u8g2.drawStr( 2, 0, "Test");
-#endif  
-}
 
 // --------------------------------------------------
 // Output 
@@ -712,3 +724,92 @@ void setSolenoid( int on )
   //digitalWrite( SOLENOID, 0); 
 }
 */
+
+
+// --------------------------------------------------
+// Display
+// --------------------------------------------------
+
+const char mode_fail[] PROGMEM = "Step motor fail";
+const char mode_unload[] PROGMEM = "Unload";
+const char mode_stop[] PROGMEM = "Stop";
+const char mode_run[] PROGMEM = "Run";
+
+#define BMP_BYTES 8
+
+const char stopBitmap[BMP_BYTES] PROGMEM = { 
+  0x00, 0x7F, 0x7F, 0x7F,
+  0x7F, 0x7F, 0x7F, 0x7F
+};
+
+const char pauseBitmap[BMP_BYTES] PROGMEM = { 
+  0x00, 0x77, 0x77, 0x77,
+  0x77, 0x77, 0x77, 0x77
+};
+
+#if GR_DISPL
+void drawModeBitmap( const char * PROGMEM bmp )
+{
+  char buf[50];
+  memcpy_P(buf, bmp, BMP_BYTES );
+  u8g2.drawBitmap(124-8, 0, 1, BMP_BYTES, buf);
+  
+}
+#endif  
+
+
+void draw()
+{
+#if GR_DISPL
+  char buf[50];
+
+  //u8g2.clear();
+  u8g2.clearBuffer();
+
+  int y = 0;
+
+  if(failTime)
+    strcpy_P(buf, mode_fail);
+  else
+  {
+  if(!gc.isLoad())
+  {
+    strcpy_P(buf, mode_unload);
+    drawModeBitmap( stopBitmap );
+  }
+  else
+  {
+     strcpy_P(buf, gc.isRun() ? mode_run : mode_stop );
+       drawModeBitmap( pauseBitmap );
+  }
+  }
+  u8g2.drawStr( 2, y, buf);
+
+  /*
+  memcpy_P(buf, stopBitmap, 8 );
+  buf[0] = 0xFF;
+  buf[1] = 0;
+  buf[2] = 0xFF;
+  buf[4] = 0xFF;
+  //u8g2.drawBitmap(2, 124-8, 1, 8, buf);
+  u8g2.drawBitmap(124-8, 0, 1, 8, buf);
+  */
+  
+  u8g2.drawHLine( 2, y+10, 124 );
+  y += 20;
+  
+  sprintf( buf, "Left delay        %3d", m1.getPosition() );
+  u8g2.drawStr( 2, y, buf);
+
+  sprintf( buf, "Right delay       %3d", m2.getPosition() );
+  u8g2.drawStr( 2, y+10, buf);
+
+
+
+
+
+
+  u8g2.drawHLine( 2, 63, 124 );
+  u8g2.sendBuffer();
+#endif  
+}

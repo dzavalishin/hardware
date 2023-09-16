@@ -333,7 +333,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "dz_Dist_Tube_power.kicad_pro",
+    "filename": "DelSol_Compander.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -412,8 +412,12 @@
   },
   "sheets": [
     [
-      "039b544e-3b32-4259-a46f-4907abf11d6f",
+      "57ad355b-b213-4afe-8c46-7be4fce5397b",
       ""
+    ],
+    [
+      "e790a2cb-ffb5-4f06-b36c-987f4337e81b",
+      "Compressor"
     ]
   ],
   "text_variables": {}
