@@ -115,6 +115,7 @@ class Debouncer
     return result;
   }
 
+  /*
   void printChanged(char *caption)
   {
     int v = get();
@@ -125,8 +126,8 @@ class Debouncer
       Serial.print(v);
       Serial.print("\n");
     }
-
-  }
+  }*/
+  
 };
 
 Debouncer s1d, s2d;
@@ -194,7 +195,7 @@ class SMotor
     if( uncalibCount < 4 )
       return 0;
       
-    Serial.println("uncal");
+    //Serial.println("uncal"); // can't in interrupt
 
     return 0; // temp off
     //startRecalibration(); 
@@ -334,7 +335,7 @@ public:
   int isStop() { return m == STOP; }
   int isLoad() { return m != UNLOAD; }
 
-  void toggleStopOrRun()
+  void toggleStopOrRun(void)
   {
     if(m == PAUSE) run();
     else stop();
@@ -470,7 +471,8 @@ void setup()
   u8g2.setBusClock(400000);
 #endif  
 
-  timer_init_ISR_2Hz(TIMER_DEFAULT);
+  //timer_init_ISR_2Hz(TIMER_DEFAULT);
+  timer_init_ISR_200Hz(TIMER_DEFAULT);
 
 #if SERVO_CTL
   capstan.attach(7, 0, 255, 127);
@@ -484,13 +486,13 @@ void setup()
 
 
 
-int n = 0;
+//int n = 0;
 int oldKeys = 0;
 int oldBoth = 0;
 int oldEv = 0;
 void loop() 
 {
-  n++;
+  //n++;
 
   int keys = ~controls.read();
   int filteredKeys = keys & ~oldKeys;
@@ -511,7 +513,7 @@ void loop()
     if(KEY_3(filteredKeys)) escKeyPress();
   }
 
-  if( 0 == (n&0x1F) )
+  //if( 0 == (n&0x1F) )
   {
     if(failTime)
       digitalWrite( controls, PCF_RG_RED, halfSec & 1);
@@ -527,6 +529,9 @@ void loop()
 
     for(int i = 0; i < NMETERS; i++ )
       meters[i] = random(100);
+
+    meters[0] = (analogRead(0) * 100) / 1024;
+      
 #if GR_DISPL
     // picture loop  
     u8g2.clearBuffer();
@@ -550,11 +555,34 @@ void loop()
   
   gc.setTarget(pos);
 
-  int s1 = s1d.process( digitalRead(S1) );
-  //s1d.printChanged("S1 = ");
+  //stepMotorsStep();
 
-  int s2 = s2d.process( digitalRead(S2) );
+  //s1d.printChanged("S1 = ");
   //s2d.printChanged("S2 = ");
+  
+  // pause before next value: 200 pulses per sec
+  //delay(400);
+  //delay(1000/200);
+  //delay(1000/400);
+  
+  //delay(1000/600); // this was for motors 
+
+  delay(10);
+}
+
+// --------------------------------------------------
+// Step motors
+// --------------------------------------------------
+
+// Called from interrupt
+void stepMotorsStep()
+{
+  int s1 = s1d.process( digitalRead(S1) );
+  int s2 = s2d.process( digitalRead(S2) );
+
+  //int s1 = digitalRead(S1); //s1d.process( 1 );
+  //int s2 = digitalRead(S2); //s2d.process( 1 );
+
   
   m1.step( s1 );
   m2.step( s2 );
@@ -562,12 +590,6 @@ void loop()
   sendStepperState();
 
   gc.updateSolenoid();
-  
-  // pause before next value: 200 pulses per sec
-  //delay(400);
-  //delay(1000/200);
-  //delay(1000/400);
-  delay(1000/600);
 }
 
 // --------------------------------------------------
@@ -651,8 +673,23 @@ void escKeyPress()
 // Timer interrupt
 // --------------------------------------------------
 
+void timer_2Hz(void);
 
+static int div100 = 0;
+// 200 Hz
 void timer_handle_interrupts(int timer) 
+{
+  div100++;
+  if(div100 >= 100)
+  {
+    div100 = 0;
+    timer_2Hz();
+  }
+
+  stepMotorsStep();
+}
+
+void timer_2Hz(void) 
 {
   halfSec++;
   
@@ -822,10 +859,10 @@ void draw()
   u8g2.drawHLine( 2, y+10, 124 );
   y += 12;
   
-  sprintf( buf, "Left delay        %3d", m1.getPosition() );
+  sprintf( buf, "Delay A           %3d", m1.getPosition() );
   u8g2.drawStr( 2, y, buf);
 
-  sprintf( buf, "Right delay       %3d", m2.getPosition() );
+  sprintf( buf, "Delay B           %3d", m2.getPosition() );
   u8g2.drawStr( 2, y+10, buf);
   y += 22;
 
