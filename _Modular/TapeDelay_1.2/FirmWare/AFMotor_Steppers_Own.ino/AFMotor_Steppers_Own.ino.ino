@@ -466,8 +466,8 @@ class GControl
 {
   GMode m = UNLOAD;
 
-  int target = 0;
-  //int mrs = 0;
+  int target_a = 0;
+  int target_b = 0;
   
 public:
   int isRun() { return m == RUN; }
@@ -513,12 +513,17 @@ public:
     updateMotors();
   }
 
-  void setTarget(int pos) { 
-    target = pos; 
+  void setTargetA(int pos) { 
+    target_a = pos; 
+    updateMotors();
+    }
+  void setTargetB(int pos) { 
+    target_b = pos; 
     updateMotors();
     }
 
-  int getTarget() { return target; }
+  int getTargetA() { return target_a; }
+  int getTargetB() { return target_b; }
 
   void updateMotors()
   {
@@ -528,8 +533,8 @@ public:
       return;
     }
     
-    m1.setTarget(target + ZERO_TARGET);
-    m2.setTarget(target + ZERO_TARGET);
+    m1.setTarget(target_a + ZERO_TARGET);
+    m2.setTarget(target_b + ZERO_TARGET);
   }
 
   // if step motor pulls back, tape must be moving to pull excess amount
@@ -629,7 +634,6 @@ void setup()
 
 int oldKeys = 0;
 int oldBoth = 0;
-int oldEv = 0;
 void loop() 
 {
   keysAndLEDs();
@@ -665,6 +669,7 @@ void loop()
 // Encoder
 // --------------------------------------------------
 
+int oldEv = 0;
 void processEncoder()
 {
   int pos = encoder.read();
@@ -684,11 +689,9 @@ void processEncoder()
   
     switch(menuPos)
     {
-      case 0: 
-      case 1:
-        gc.setTarget(pos); break;
-      case 2:
-        capstanSpeed = pos; break;
+      case 0: gc.setTargetA(pos); break;
+      case 1: gc.setTargetB(pos); break;
+      case 2: capstanSpeed = pos; break;
     }
   }
 }
@@ -697,11 +700,9 @@ void loadEncoder()
 {
   switch(menuPos)
   {
-    case 0: 
-    case 1:
-      encoder.write(gc.getTarget()); break;
-    case 2:
-      encoder.write(capstanSpeed); break;
+    case 0: encoder.write(oldEv = gc.getTargetA()); break;
+    case 1: encoder.write(oldEv = gc.getTargetB()); break;
+    case 2: encoder.write(oldEv = capstanSpeed); break;
   }
 }
 
@@ -1047,11 +1048,11 @@ void draw()
   }
   else
   {  
-    sprintf( buf, "Delay A           %3d", m1.getPosition() );
+    sprintf( buf, "Delay A           %3d", gc.getTargetA() ); //m1.getPosition() );
     u8g2.drawStr( 2, y, buf);
     if(menuPos==0) u8g2.drawHLine( 2, y+9, 41 );
   
-    sprintf( buf, "Delay B           %3d", m2.getPosition() );
+    sprintf( buf, "Delay B           %3d", gc.getTargetB() ); //m2.getPosition() );
     u8g2.drawStr( 2, y+10, buf);
     if(menuPos==1) u8g2.drawHLine( 2, y+19, 41 );
   }
