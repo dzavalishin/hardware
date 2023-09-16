@@ -68,8 +68,8 @@ int halfSec = 0;
 int failTime = 0;
 int failCount = 0;
 
-#define NMETERS 4
-int meters[NMETERS] = { 10, 20, 30, 30 };
+//#define NMETERS 4
+//int meters[NMETERS] = { 10, 20, 30, 30 };
 
 Encoder encoder(2, 3);
 
@@ -84,6 +84,64 @@ U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 Servo capstan;
 #endif
 
+// --------------------------------------------------
+// Level meter
+// --------------------------------------------------
+
+#define NMETERS 4
+
+#define METER_IN_SCALE 1024
+#define METER_SCALE 100
+
+#define METER_XSIZE 124
+
+#define VU_INTEG 2
+#define PK_INTEG 9
+
+class LevelMeter
+{
+  int value = 0; // mapped to 0-99
+
+  int peak = 0;
+  int vu = 0;
+
+  static int scaleInput(int i)
+  {
+    return (i * METER_SCALE) / METER_IN_SCALE;
+  }
+
+public:
+  void setValue(int v) 
+  { 
+    value = scaleInput(v); 
+    peak = max( peak, value );
+    vu   = max( vu, value );
+  }
+
+  // Called 200 times a sec
+  void timer()
+  {
+    if( vu > value ) 
+      vu = (vu*VU_INTEG+value) / VU_INTEG+1;
+      
+    if( peak > value ) 
+      peak = (peak*PK_INTEG+value) / PK_INTEG+1;    
+  }
+
+  void draw(int y)
+  {
+    int vu_x = (vu * METER_XSIZE) / METER_SCALE;
+    u8g2.drawHLine( 2, y, vu_x );
+    u8g2.drawHLine( 2, y+1, vu_x );
+
+    int peak_x = (peak * METER_XSIZE) / METER_SCALE;
+    u8g2.drawHLine( 2+peak_x, y, 2 );
+    u8g2.drawHLine( 2+peak_x, y+1, 2 );
+  }
+
+};
+
+LevelMeter meters[NMETERS];
 
 // --------------------------------------------------
 // Debouncer
@@ -493,7 +551,8 @@ int oldEv = 0;
 void loop() 
 {
   //n++;
-
+  keysAndLEDs();
+  /*
   int keys = ~controls.read();
   int filteredKeys = keys & ~oldKeys;
   oldKeys = keys;
@@ -526,20 +585,21 @@ void loop()
       digitalWrite( controls, PCF_YELLOW, !gc.isStop());
 
     digitalWrite( controls, PCF_GREEN, !gc.isRun());
+    }
+    */
 
-    for(int i = 0; i < NMETERS; i++ )
-      meters[i] = random(100);
+  for(int i = 1; i < NMETERS; i++ )
+    meters[i].setValue(random(1024));
 
-    meters[0] = (analogRead(0) * 100) / 1024;
+  meters[0].setValue( analogRead(A0) );
       
 #if GR_DISPL
-    // picture loop  
-    u8g2.clearBuffer();
-    draw();
-    u8g2.sendBuffer();
+  // picture loop  
+  u8g2.clearBuffer();
+  draw();
+  u8g2.sendBuffer();
 #endif
-  }
-
+  
   int pos = encoder.read();
   if(pos < 0) encoder.write(0);
   if(pos > MAX_TARGET) encoder.write(MAX_TARGET);
@@ -568,6 +628,44 @@ void loop()
   //delay(1000/600); // this was for motors 
 
   delay(10);
+}
+
+// --------------------------------------------------
+// Keys & LEDs
+// --------------------------------------------------
+
+void keysAndLEDs()
+{
+  int keys = ~controls.read();
+  int filteredKeys = keys & ~oldKeys;
+  oldKeys = keys;
+
+  if( KEY_0(keys) && KEY_1(keys))
+  {
+    if(0 == oldBoth)
+      bothKeysPress();
+    oldBoth = 1;
+  }
+  else
+  {
+    oldBoth = 0;
+    if(KEY_0(filteredKeys)) key0press();
+    if(KEY_1(filteredKeys)) key1press();
+    if(KEY_2(filteredKeys)) enterKeyPress();
+    if(KEY_3(filteredKeys)) escKeyPress();
+  }
+
+  if(failTime)
+    digitalWrite( controls, PCF_RG_RED, halfSec & 1);
+  else
+    digitalWrite( controls, PCF_RG_RED, gc.isLoad());
+
+  if(!bothMotorsStop())
+    digitalWrite( controls, PCF_YELLOW, halfSec & 1);
+  else
+    digitalWrite( controls, PCF_YELLOW, !gc.isStop());
+
+  digitalWrite( controls, PCF_GREEN, !gc.isRun());
 }
 
 // --------------------------------------------------
@@ -687,6 +785,9 @@ void timer_handle_interrupts(int timer)
   }
 
   stepMotorsStep();
+  
+  for(int i = 0; i < NMETERS; i++ )
+    meters[i].timer();
 }
 
 void timer_2Hz(void) 
@@ -871,10 +972,13 @@ void draw()
 
 
   for(int i = 0; i < NMETERS; i++ )
+    meters[i].draw( y+i*5 );
+  /*    
   {
     u8g2.drawHLine( 2, y+i*5, (meters[i] * 124) /100 );
     u8g2.drawHLine( 2, y+(i*5)+1, (meters[i] * 124) /100 );
   }
+  */
   
   u8g2.drawHLine( 2, 63, 124 );
   //u8g2.sendBuffer();
