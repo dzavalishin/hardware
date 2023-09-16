@@ -90,55 +90,86 @@ Servo capstan;
 
 #define NMETERS 4
 
-#define METER_IN_SCALE 1024
-#define METER_SCALE 100
+#define METER_IN_SCALE 1024u
+#define METER_SCALE 100u
 
-#define METER_XSIZE 124
+#define METER_XSIZE 124u
 
-#define VU_INTEG 2
-#define PK_INTEG 9
+#define VU_INTEG_UP 15
+#define VU_INTEG_DN 50
+#define PK_INTEG 225
 
 class LevelMeter
 {
-  int value = 0; // mapped to 0-99
+  unsigned int value = 0; // mapped to 0-99
 
-  int peak = 0;
-  int vu = 0;
+  unsigned int peak = 0;
+  unsigned int vu = 0;
 
-  static int scaleInput(int i)
+  static unsigned int scaleInput(unsigned int i)
   {
-    return (i * METER_SCALE) / METER_IN_SCALE;
+    return (((unsigned long)i) * METER_SCALE) / METER_IN_SCALE;
   }
 
 public:
-  void setValue(int v) 
+  void setValue(unsigned int v) 
   { 
     value = scaleInput(v); 
     peak = max( peak, value );
-    vu   = max( vu, value );
+    //vu   = max( vu, value );
   }
 
   // Called 200 times a sec
+  int div = 0;
   void timer()
   {
+    div++;
+    if( div++ < 10 ) return;
+    div = 0;
+    
     if( vu > value ) 
-      vu = (vu*VU_INTEG+value) / VU_INTEG+1;
+      vu = (((long)vu)*VU_INTEG_DN+value) / (VU_INTEG_DN+1);
+    else
+      vu = (((long)vu)*VU_INTEG_UP+value) / (VU_INTEG_UP+1);
       
     if( peak > value ) 
-      peak = (peak*PK_INTEG+value) / PK_INTEG+1;    
+      peak = (((long)peak)*PK_INTEG+value) / (PK_INTEG+1);    
+    
+
+    //vu = value;
+    //peak = value + 2;
   }
 
-  void draw(int y)
+  void drawAsLine(int y)
   {
-    int vu_x = (vu * METER_XSIZE) / METER_SCALE;
+    unsigned int vu_x = (vu * METER_XSIZE) / METER_SCALE;
     u8g2.drawHLine( 2, y, vu_x );
     u8g2.drawHLine( 2, y+1, vu_x );
 
-    int peak_x = (peak * METER_XSIZE) / METER_SCALE;
+    unsigned int peak_x = (peak * METER_XSIZE) / METER_SCALE;
     u8g2.drawHLine( 2+peak_x, y, 2 );
     u8g2.drawHLine( 2+peak_x, y+1, 2 );
   }
 
+#define AN_W (124/4)
+#define AN_Y 37
+  
+  void drawAsAnalog(int num)
+  {
+    int left = 2 + num * AN_W;
+    int center = left + (AN_W/2);
+
+    unsigned int vu_x = (vu * AN_W) / METER_SCALE;
+    unsigned int peak_x = (peak * AN_W) / METER_SCALE;
+
+    u8g2.drawLine( center, 61, left + vu_x, AN_Y );
+
+    u8g2.drawHLine( left+peak_x, AN_Y, 2 );
+    u8g2.drawHLine( left+peak_x, AN_Y+1, 2 );
+
+    u8g2.drawLine( left, 61, left, AN_Y );
+  }
+  
 };
 
 LevelMeter meters[NMETERS];
@@ -544,54 +575,14 @@ void setup()
 
 
 
-//int n = 0;
 int oldKeys = 0;
 int oldBoth = 0;
 int oldEv = 0;
 void loop() 
 {
-  //n++;
   keysAndLEDs();
-  /*
-  int keys = ~controls.read();
-  int filteredKeys = keys & ~oldKeys;
-  oldKeys = keys;
+  updateMeters();
 
-  if( KEY_0(keys) && KEY_1(keys))
-  {
-    if(0 == oldBoth)
-      bothKeysPress();
-    oldBoth = 1;
-  }
-  else
-  {
-    oldBoth = 0;
-    if(KEY_0(filteredKeys)) key0press();
-    if(KEY_1(filteredKeys)) key1press();
-    if(KEY_2(filteredKeys)) enterKeyPress();
-    if(KEY_3(filteredKeys)) escKeyPress();
-  }
-
-  //if( 0 == (n&0x1F) )
-  {
-    if(failTime)
-      digitalWrite( controls, PCF_RG_RED, halfSec & 1);
-    else
-      digitalWrite( controls, PCF_RG_RED, gc.isLoad());
-
-    if(!bothMotorsStop())
-      digitalWrite( controls, PCF_YELLOW, halfSec & 1);
-    else
-      digitalWrite( controls, PCF_YELLOW, !gc.isStop());
-
-    digitalWrite( controls, PCF_GREEN, !gc.isRun());
-    }
-    */
-
-  for(int i = 1; i < NMETERS; i++ )
-    meters[i].setValue(random(1024));
-
-  meters[0].setValue( analogRead(A0) );
       
 #if GR_DISPL
   // picture loop  
@@ -972,7 +963,8 @@ void draw()
 
 
   for(int i = 0; i < NMETERS; i++ )
-    meters[i].draw( y+i*5 );
+    //meters[i].drawAsLine( y+i*5 );
+    meters[i].drawAsAnalog( i );
   /*    
   {
     u8g2.drawHLine( 2, y+i*5, (meters[i] * 124) /100 );
@@ -983,4 +975,21 @@ void draw()
   u8g2.drawHLine( 2, 63, 124 );
   //u8g2.sendBuffer();
 #endif  
+}
+
+
+// --------------------------------------------------
+// Meters IO
+// --------------------------------------------------
+
+
+void updateMeters()
+{
+  for(int i = 1; i < NMETERS; i++ )    meters[i].setValue(random(1023));
+
+  meters[0].setValue( analogRead(A0) );
+
+  //meters[1].setValue( 1010 );
+  //meters[2].setValue( 1020 );
+  //meters[3].setValue( 1024 );
 }
