@@ -68,6 +68,9 @@ int halfSec = 0;
 int failTime = 0;
 int failCount = 0;
 
+#define NMETERS 4
+int meters[NMETERS] = { 10, 20, 30, 30 };
+
 Encoder encoder(2, 3);
 
 PCF8574 controls(0x20);
@@ -463,6 +466,8 @@ void setup()
   u8g2.setDrawColor(1);
   u8g2.setFontPosTop();
   u8g2.setFontDirection(0);
+
+  u8g2.setBusClock(400000);
 #endif  
 
   timer_init_ISR_2Hz(TIMER_DEFAULT);
@@ -519,7 +524,9 @@ void loop()
       digitalWrite( controls, PCF_YELLOW, !gc.isStop());
 
     digitalWrite( controls, PCF_GREEN, !gc.isRun());
-    
+
+    for(int i = 0; i < NMETERS; i++ )
+      meters[i] = random(100);
 #if GR_DISPL
     // picture loop  
     u8g2.clearBuffer();
@@ -747,6 +754,30 @@ const char pauseBitmap[BMP_BYTES] PROGMEM = {
   0x77, 0x77, 0x77, 0x77
 };
 
+#if 0
+const char runBitmap[BMP_BYTES] PROGMEM = { 
+  0x00, 
+  0b01000000,
+  0b01100000,
+  0b01110000,
+  0b01111000,
+  0b01110000,
+  0b01100000,
+  0b01000000,  
+};
+#else
+const char runBitmap[BMP_BYTES] PROGMEM = { 
+  0x00, 
+  0b01000000,
+  0b01110000,
+  0b01111100,
+  0b01111111,
+  0b01111100,
+  0b01110000,
+  0b01000000,  
+};
+#endif
+
 #if GR_DISPL
 void drawModeBitmap( const char * PROGMEM bmp )
 {
@@ -764,7 +795,7 @@ void draw()
   char buf[50];
 
   //u8g2.clear();
-  u8g2.clearBuffer();
+  //u8g2.clearBuffer();
 
   int y = 0;
 
@@ -780,36 +811,35 @@ void draw()
   else
   {
      strcpy_P(buf, gc.isRun() ? mode_run : mode_stop );
-       drawModeBitmap( pauseBitmap );
+     if(gc.isRun())
+      drawModeBitmap( runBitmap );
+     else
+      drawModeBitmap( pauseBitmap );
   }
   }
   u8g2.drawStr( 2, y, buf);
 
-  /*
-  memcpy_P(buf, stopBitmap, 8 );
-  buf[0] = 0xFF;
-  buf[1] = 0;
-  buf[2] = 0xFF;
-  buf[4] = 0xFF;
-  //u8g2.drawBitmap(2, 124-8, 1, 8, buf);
-  u8g2.drawBitmap(124-8, 0, 1, 8, buf);
-  */
-  
   u8g2.drawHLine( 2, y+10, 124 );
-  y += 20;
+  y += 12;
   
   sprintf( buf, "Left delay        %3d", m1.getPosition() );
   u8g2.drawStr( 2, y, buf);
 
   sprintf( buf, "Right delay       %3d", m2.getPosition() );
   u8g2.drawStr( 2, y+10, buf);
+  y += 22;
+
+  u8g2.drawHLine( 2, y, 124 );
+  y += 6;
 
 
-
-
-
-
+  for(int i = 0; i < NMETERS; i++ )
+  {
+    u8g2.drawHLine( 2, y+i*5, (meters[i] * 124) /100 );
+    u8g2.drawHLine( 2, y+(i*5)+1, (meters[i] * 124) /100 );
+  }
+  
   u8g2.drawHLine( 2, 63, 124 );
-  u8g2.sendBuffer();
+  //u8g2.sendBuffer();
 #endif  
 }
