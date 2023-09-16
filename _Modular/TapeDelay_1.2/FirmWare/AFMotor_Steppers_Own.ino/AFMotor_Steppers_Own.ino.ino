@@ -1,6 +1,18 @@
 #define GR_DISPL 1
 #define SERVO_CTL 0
 
+/**
+ * 
+ * Tape delay control board, Arduini Mega 2560
+ * 
+ * Transport controls and LEDs - pcf8574
+ * Encoder - tape delay control 
+ * Two step motors - tape loop length
+ * Capstan pinch roller solenoid
+ * (TODO capstan speed)
+ * 
+ */
+
 
 #include <timer-api.h>
 #include <Wire.h>
@@ -20,6 +32,8 @@
 // Defines
 // --------------------------------------------------
 
+#define ENCODER_PIN_A 3
+#define ENCODER_PIN_B 2
 
 // ST_CP of 74HC595 - CS0
 #define latchPin 11
@@ -68,10 +82,10 @@ int halfSec = 0;
 int failTime = 0;
 int failCount = 0;
 
-//#define NMETERS 4
-//int meters[NMETERS] = { 10, 20, 30, 30 };
+int menuPos = 0; // 0 = delay A, 1 - delay B, 2 - capstan speed
+int capstanSpeed = 100;
 
-Encoder encoder(2, 3);
+Encoder encoder(ENCODER_PIN_A, ENCODER_PIN_B);
 
 PCF8574 controls(0x20);
 
@@ -152,9 +166,10 @@ public:
   }
 
 #define AN_W (124/4)
-#define AN_Y 37
-#define AN_Y2 61
-#define AN_NEEDLE_LEN 22
+//#define AN_Y 37
+#define AN_Y2 60
+#define AN_NEEDLE_LEN 16
+#define AN_START -50.0f
   
   void drawAsAnalog(int num)
   {
@@ -169,15 +184,15 @@ public:
     //u8g2.drawHLine( left+peak_x, AN_Y, 2 );
     //u8g2.drawHLine( left+peak_x, AN_Y+1, 2 );
 
-    float angle = (-40.0f + vu) * 1000 / 57296;
+    float angle = (AN_START + vu) * 1000 / 57296;
     float nx = sin(angle) * AN_NEEDLE_LEN;
     float ny = cos(angle) * AN_NEEDLE_LEN;
 
     u8g2.drawLine( center, AN_Y2, center + nx, AN_Y2 - ny );
 
-    angle = (-40.0f + peak) * 1000 / 57296;
-    nx = sin(angle) * AN_NEEDLE_LEN+2;
-    ny = cos(angle) * AN_NEEDLE_LEN+2;
+    angle = (AN_START + peak) * 1000 / 57296;
+    nx = sin(angle) * AN_NEEDLE_LEN+3;
+    ny = cos(angle) * AN_NEEDLE_LEN+3;
 
     u8g2.drawBox( center + nx-1, AN_Y2 - ny-1, 3, 3 );
 
@@ -198,7 +213,7 @@ public:
 
   void drawTick(int i_angle, int center, int len)
   {
-    float angle = (-40.0f + i_angle) * 1000 / 57296;
+    float angle = (AN_START + i_angle) * 1000 / 57296;
     float nx = sin(angle) * len;
     float ny = cos(angle) * len;
 
@@ -503,6 +518,8 @@ public:
     updateMotors();
     }
 
+  int getTarget() { return target; }
+
   void updateMotors()
   {
     if(m == UNLOAD) {
@@ -625,21 +642,9 @@ void loop()
   draw();
   u8g2.sendBuffer();
 #endif
-  
-  int pos = encoder.read();
-  if(pos < 0) encoder.write(0);
-  if(pos > MAX_TARGET) encoder.write(MAX_TARGET);
-  pos = encoder.read();
 
-  if(pos != oldEv)
-  {
-    oldEv = pos;
-    Serial.print("enc = ");
-    Serial.print(pos);
-    Serial.print("\n");
-  }
+  processEncoder();
   
-  gc.setTarget(pos);
 
   //stepMotorsStep();
 
@@ -654,6 +659,50 @@ void loop()
   //delay(1000/600); // this was for motors 
 
   delay(10);
+}
+
+// --------------------------------------------------
+// Encoder
+// --------------------------------------------------
+
+void processEncoder()
+{
+  int pos = encoder.read();
+  if(pos < 0) encoder.write(0);
+  if(pos > MAX_TARGET) encoder.write(MAX_TARGET);
+  pos = encoder.read();
+
+  if(pos != oldEv)
+  {
+    oldEv = pos;
+    Serial.print("enc = ");
+    Serial.print(pos);
+    Serial.print("\n");
+  
+  
+    //gc.setTarget(pos);
+  
+    switch(menuPos)
+    {
+      case 0: 
+      case 1:
+        gc.setTarget(pos); break;
+      case 2:
+        capstanSpeed = pos; break;
+    }
+  }
+}
+
+void loadEncoder()
+{
+  switch(menuPos)
+  {
+    case 0: 
+    case 1:
+      encoder.write(gc.getTarget()); break;
+    case 2:
+      encoder.write(capstanSpeed); break;
+  }
 }
 
 // --------------------------------------------------
@@ -693,49 +742,6 @@ void keysAndLEDs()
 
   digitalWrite( controls, PCF_GREEN, !gc.isRun());
 }
-
-// --------------------------------------------------
-// Step motors
-// --------------------------------------------------
-
-// Called from interrupt
-void stepMotorsStep()
-{
-  int s1 = s1d.process( digitalRead(S1) );
-  int s2 = s2d.process( digitalRead(S2) );
-
-  //int s1 = digitalRead(S1); //s1d.process( 1 );
-  //int s2 = digitalRead(S2); //s2d.process( 1 );
-
-  
-  m1.step( s1 );
-  m2.step( s2 );
-
-  sendStepperState();
-
-  gc.updateSolenoid();
-}
-
-// --------------------------------------------------
-// Global state getters
-// --------------------------------------------------
-
-int isFailed()
-{
-  return failTime != 0;
-}
-
-int isCalibrating()
-{
-  return m1.isCalibrating() && m2.isCalibrating();
-}
-
-
-int bothMotorsStop()
-{
-  return m1.isStop() && m2.isStop();
-}
-
 
 // --------------------------------------------------
 // Keys handling
@@ -783,14 +789,62 @@ void key1press()
 void enterKeyPress()
 {
   Serial.println("Enter key");
-  
+  menuPos++;
+  menuPos %= 3;
+  loadEncoder();
 }
 
 void escKeyPress()
 {
   Serial.println("ESC key");
   encoder.write(0);
+  menuPos = 0;
+  loadEncoder();
 }
+
+// --------------------------------------------------
+// Step motors
+// --------------------------------------------------
+
+// Called from interrupt
+void stepMotorsStep()
+{
+  int s1 = s1d.process( digitalRead(S1) );
+  int s2 = s2d.process( digitalRead(S2) );
+
+  //int s1 = digitalRead(S1); //s1d.process( 1 );
+  //int s2 = digitalRead(S2); //s2d.process( 1 );
+
+  
+  m1.step( s1 );
+  m2.step( s2 );
+
+  sendStepperState();
+
+  gc.updateSolenoid();
+}
+
+// --------------------------------------------------
+// Global state getters
+// --------------------------------------------------
+
+int isFailed()
+{
+  return failTime != 0;
+}
+
+int isCalibrating()
+{
+  return m1.isCalibrating() && m2.isCalibrating();
+}
+
+
+int bothMotorsStop()
+{
+  return m1.isStop() && m2.isStop();
+}
+
+
 
 
 // --------------------------------------------------
@@ -985,12 +1039,22 @@ void draw()
 
   u8g2.drawHLine( 2, y+10, 124 );
   y += 12;
-  
-  sprintf( buf, "Delay A           %3d", m1.getPosition() );
-  u8g2.drawStr( 2, y, buf);
 
-  sprintf( buf, "Delay B           %3d", m2.getPosition() );
-  u8g2.drawStr( 2, y+10, buf);
+  if(menuPos == 2)
+  {
+    sprintf( buf, "Capstan RPM %3d", capstanSpeed );
+    u8g2.drawStr( 2, y, buf);
+  }
+  else
+  {  
+    sprintf( buf, "Delay A           %3d", m1.getPosition() );
+    u8g2.drawStr( 2, y, buf);
+    if(menuPos==0) u8g2.drawHLine( 2, y+9, 41 );
+  
+    sprintf( buf, "Delay B           %3d", m2.getPosition() );
+    u8g2.drawStr( 2, y+10, buf);
+    if(menuPos==1) u8g2.drawHLine( 2, y+19, 41 );
+  }
   y += 22;
 
   u8g2.drawHLine( 2, y, 124 );
