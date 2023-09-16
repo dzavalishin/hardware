@@ -153,21 +153,56 @@ public:
 
 #define AN_W (124/4)
 #define AN_Y 37
+#define AN_Y2 61
+#define AN_NEEDLE_LEN 22
   
   void drawAsAnalog(int num)
   {
     int left = 2 + num * AN_W;
     int center = left + (AN_W/2);
 
-    unsigned int vu_x = (vu * AN_W) / METER_SCALE;
-    unsigned int peak_x = (peak * AN_W) / METER_SCALE;
+    //unsigned int vu_x = (vu * AN_W) / METER_SCALE;
+    //unsigned int peak_x = (peak * AN_W) / METER_SCALE;
 
-    u8g2.drawLine( center, 61, left + vu_x, AN_Y );
+    //u8g2.drawLine( center, AN_Y2, left + vu_x, AN_Y );
 
-    u8g2.drawHLine( left+peak_x, AN_Y, 2 );
-    u8g2.drawHLine( left+peak_x, AN_Y+1, 2 );
+    //u8g2.drawHLine( left+peak_x, AN_Y, 2 );
+    //u8g2.drawHLine( left+peak_x, AN_Y+1, 2 );
 
-    u8g2.drawLine( left, 61, left, AN_Y );
+    float angle = (-40.0f + vu) * 1000 / 57296;
+    float nx = sin(angle) * AN_NEEDLE_LEN;
+    float ny = cos(angle) * AN_NEEDLE_LEN;
+
+    u8g2.drawLine( center, AN_Y2, center + nx, AN_Y2 - ny );
+
+    angle = (-40.0f + peak) * 1000 / 57296;
+    nx = sin(angle) * AN_NEEDLE_LEN+2;
+    ny = cos(angle) * AN_NEEDLE_LEN+2;
+
+    u8g2.drawBox( center + nx-1, AN_Y2 - ny-1, 3, 3 );
+
+    drawTick(0, center);
+    drawTick(20, center);
+    drawTick(40, center);
+    drawTick(60, center);
+    drawTick(80, center);
+    drawTick(100, center);
+
+    //u8g2.drawLine( left, 61, left, AN_Y );
+  }
+
+  void drawTick(int i_angle, int center)
+  {
+    drawTick(i_angle, center, AN_NEEDLE_LEN+3);
+  }
+
+  void drawTick(int i_angle, int center, int len)
+  {
+    float angle = (-40.0f + i_angle) * 1000 / 57296;
+    float nx = sin(angle) * len;
+    float ny = cos(angle) * len;
+
+    u8g2.drawPixel( center + nx-1, AN_Y2 - ny-1 );    
   }
   
 };
