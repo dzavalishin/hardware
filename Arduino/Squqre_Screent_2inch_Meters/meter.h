@@ -4,10 +4,12 @@
 // Level meter
 // --------------------------------------------------
 
+#define PEAK_MARK_SIZE 3
+
 #define BACKGROUND BLACK
 #define BORDER_COLOR DARKGREY // LIGHTGREY
 
-#define TICK_COLOR BLUE // LIGHTGREY
+#define TICK_COLOR CYAN //BLUE // LIGHTGREY
 #define NEEDLE_COLOR WHITE
 #define PEAK_COLOR RED
 
@@ -30,6 +32,14 @@ private:
   unsigned int xSize = 100;
   unsigned int ySize = 50;
 
+  unsigned int center = 0;
+
+  unsigned int oldNeedleX = -1;
+  unsigned int oldNeedleY = -1;
+
+  unsigned int oldPeakX = -1;
+  unsigned int oldPeakY = -1;
+
   unsigned int value = 0; // mapped to 0-99
 
   unsigned int peak = 0;
@@ -45,6 +55,7 @@ public:
   {
     xPos = x; yPos = y;
     xSize = xs; ySize = ys;
+    center = xPos + (xSize/2);
   }
 
   void setValue(unsigned int v) 
@@ -78,55 +89,60 @@ public:
   void drawAsLine(int y)
   {
     unsigned int vu_x = (vu * METER_XSIZE) / METER_SCALE;
-    //u8g2.drawHLine( 2, y, vu_x );
-    //u8g2.drawHLine( 2, y+1, vu_x );
     gfx->drawFastHLine( 2, y, vu_x, NEEDLE_COLOR );
     gfx->drawFastHLine( 2, y+1, vu_x, NEEDLE_COLOR );
 
     unsigned int peak_x = (peak * METER_XSIZE) / METER_SCALE;
-    //u8g2.drawHLine( 2+peak_x, y, 2 );
-    //u8g2.drawHLine( 2+peak_x, y+1, 2 );
     gfx->drawFastHLine( 2+peak_x, y, 2, PEAK_COLOR );
     gfx->drawFastHLine( 2+peak_x, y+1, 2, PEAK_COLOR );
   }
 
 //#define AN_W (124/4)
-#define AN_W (320/4)
+//#define AN_W (320/4)
+#define AN_W xSize-4
 //#define AN_Y 37
 //#define AN_Y2 60
-#define AN_Y2 120
-#define AN_NEEDLE_LEN 32
+//#define AN_Y2 120
+#define AN_Y2 (yPos+ySize)
+//#define AN_NEEDLE_LEN 32
 //#define AN_NEEDLE_LEN 16
+#define AN_NEEDLE_LEN (ySize - 20)
+
+#define AN_PEAK_GAP 6
+
 #define AN_START -50.0f
   
   void drawAsAnalog(int num)
   {
-    int left = 2 + num * AN_W;
-    int center = left + (AN_W/2);
+    int left = 2 + xPos;
 
-    gfx->fillRect( left, 0, AN_W, 240, BACKGROUND );
-    gfx->drawRect( left, 0, AN_W, 240, BORDER_COLOR );
+    //gfx->fillRect( left, yPos, xSize, ySize, BACKGROUND );
+    gfx->drawRect( left, yPos, xSize, ySize, BORDER_COLOR );
 
-    //unsigned int vu_x = (vu * AN_W) / METER_SCALE;
-    //unsigned int peak_x = (peak * AN_W) / METER_SCALE;
-
-    //u8g2.drawLine( center, AN_Y2, left + vu_x, AN_Y );
-
-    //u8g2.drawHLine( left+peak_x, AN_Y, 2 );
-    //u8g2.drawHLine( left+peak_x, AN_Y+1, 2 );
+    if(oldNeedleY > 0 )
+    {
+      gfx->drawLine( center, AN_Y2, center + oldNeedleX, AN_Y2 - oldNeedleY-1, BACKGROUND );
+      gfx->drawLine( center, AN_Y2, center + oldNeedleX-1, AN_Y2 - oldNeedleY-1, BACKGROUND );
+      gfx->drawLine( center, AN_Y2, center + oldNeedleX+1, AN_Y2 - oldNeedleY-1, BACKGROUND );
+      
+      gfx->drawRect( center + oldPeakX-1-1, AN_Y2 - oldPeakY-1-1, PEAK_MARK_SIZE+2, PEAK_MARK_SIZE+2, BACKGROUND );
+    }
 
     float angle = (AN_START + vu) * 1000 / 57296;
     float nx = sin(angle) * AN_NEEDLE_LEN;
     float ny = cos(angle) * AN_NEEDLE_LEN;
 
     gfx->drawLine( center, AN_Y2, center + nx, AN_Y2 - ny, NEEDLE_COLOR );
-
+    oldNeedleX = nx;
+    oldNeedleY = ny;
+  
     angle = (AN_START + peak) * 1000 / 57296;
-    nx = sin(angle) * AN_NEEDLE_LEN+3;
-    ny = cos(angle) * AN_NEEDLE_LEN+3;
+    nx = sin(angle) * AN_NEEDLE_LEN+AN_PEAK_GAP;
+    ny = cos(angle) * AN_NEEDLE_LEN+AN_PEAK_GAP;
 
-    //gfx->drawBox( center + nx-1, AN_Y2 - ny-1, 3, 3, PEAK_COLOR );
-    gfx->drawRect( center + nx-1, AN_Y2 - ny-1, 3, 3, PEAK_COLOR );
+    gfx->drawRect( center + nx-1, AN_Y2 - ny-1, PEAK_MARK_SIZE, PEAK_MARK_SIZE, PEAK_COLOR );
+    oldPeakX = nx;
+    oldPeakY = ny;
 
     drawTick(0, center);
     drawTick(20, center);
@@ -140,7 +156,7 @@ public:
 
   void drawTick(int i_angle, int center)
   {
-    drawTick(i_angle, center, AN_NEEDLE_LEN+3);
+    drawTick(i_angle, center, AN_NEEDLE_LEN+AN_PEAK_GAP+3);
   }
 
   void drawTick(int i_angle, int center, int len)
@@ -149,7 +165,8 @@ public:
     float nx = sin(angle) * len;
     float ny = cos(angle) * len;
 
-    gfx->drawPixel( center + nx-1, AN_Y2 - ny-1, TICK_COLOR );    
+    //gfx->drawPixel( center + nx-1, AN_Y2 - ny-1, TICK_COLOR );    
+    gfx->fillRect( center + nx-1, AN_Y2 - ny-1, 3, 3, TICK_COLOR );    
   }
   
 };
